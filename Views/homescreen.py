@@ -4,6 +4,7 @@ import customtkinter
 import CTkTable
 from Views.enterdata import EnterData
 from Views.Authorization.Login import Login
+from Views.Authorization.Register import Register
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -75,12 +76,17 @@ class App(customtkinter.CTk):
 
     def to_authorization(self):
         self.content_frame.destroy()
-        self.content_frame = Login(self, fg_color=("#FFFFFF", "#000000"))
+        self.content_frame = Login(self, self, fg_color=("#FFFFFF", "#000000"))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
 
     def to_enter_data(self):
         self.content_frame.destroy()
         self.content_frame = EnterData(self, fg_color=("#FFFFFF", "#000000"))
+        self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
+
+    def to_registration(self):
+        self.content_frame.destroy()
+        self.content_frame = Register(self, self, fg_color=("#FFFFFF", "#000000"))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
 
 if __name__ == "__main__":
