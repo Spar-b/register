@@ -1,4 +1,4 @@
-from Views.homescreen import App
+from Views.App import App
 
 app = App()
 app.mainloop()

@@ -1,6 +1,7 @@
 import customtkinter
 from CTkTable import CTkTable
 import mysql.connector
+from Utils.dbconnect import DBConnect
 
 
 class EnterData(customtkinter.CTkScrollableFrame):
@@ -10,20 +11,11 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.grid_rowconfigure((1, 2, 3, 4), weight=1)
         self.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8), weight=1)
 
-        db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="1111",
-            database="courseproject"
-        )
-
-        cursor = db.cursor()
+        db = DBConnect()
+        cursor = db.db.cursor()
 
         self.table = CTkTable(self, column=1, row=1)
         self.populate_table(cursor, "accounts")
-
-        cursor.close()
-        db.close()
 
         self.table.grid(row=0, column=0, columnspan=8)
 
@@ -50,7 +42,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
             self.table.delete_row(0)
 
         # Configure the table columns
-        self.table = CTkTable(self, column=15, header_color=("#3a7ebf", "#1f538d"), values=self.table_data, row=len(self.table_data))
+        self.table = CTkTable(self, column=len(column_names), header_color=("#3a7ebf", "#1f538d"), values=self.table_data, row=len(self.table_data))
 
         # Set the column headings
         self.table.headings = column_names

@@ -5,8 +5,14 @@ class User:
         self.password = password
         self.subjects = []
 
-    def get_all_from_db(self):
+    @staticmethod
+    def get_all_from_db():
         from Utils.dbconnect import DBConnect
         db = DBConnect()
         data = db.execute_query("SELECT * FROM accounts;")
-        table_data =[[str(value) for value in row] for row in data]
+        user_list = []
+
+        for row in data:
+            user = User(*row)
+            user_list.append(user)
+        return user_list
