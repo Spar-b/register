@@ -30,7 +30,7 @@ class App(customtkinter.CTk):
         self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
 
-        self.content_frame = EnterData(self, fg_color=("#FFFFFF", "#000000"))
+        self.content_frame = EnterData(self, fg_color=("#F5F5F5", "#000000"))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
 
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Журнал учителя", font=customtkinter.CTkFont(size=20, weight="bold"))

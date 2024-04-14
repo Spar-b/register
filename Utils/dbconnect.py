@@ -20,6 +20,11 @@ class DBConnect:
 
     def execute_query(self, query):
         self.cursor.execute(query)
-        self.db.commit()
+
+        try:
+            self.db.commit()
+        except Exception:
+            print("Немає дій для збереження в базі")
+
         data = self.cursor.fetchall()
         return data
