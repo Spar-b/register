@@ -15,26 +15,35 @@ class EnterData(customtkinter.CTkScrollableFrame):
         cursor = db.db.cursor()
 
         self.table = CTkTable(self, column=1, row=1)
-        self.populate_table(cursor, "accounts")
+        sql_query = f'''
+            SELECT subject.id, subject.subject_name
+            FROM account_subject
+            JOIN subject ON account_subject.subject_id = subject.id
+            WHERE account_subject.account_id = 1;
+        '''
+        self.column_names = []
+        self.table_data = []
+        self.populate_table(cursor, sql_query)
 
         self.table.grid(row=0, column=0, columnspan=8)
 
-    def populate_table(self, cursor, table_name):
+    def add_empty_row(self):
+        empty_row = [""] * self.table.columns
+        self.table.add_row(values=empty_row)
+
+    def populate_table(self, cursor, query):
         # Execute the SQL query
-        sql_query = f'''
-            SELECT * FROM {table_name};
-        '''
-        cursor.execute(sql_query)
+        cursor.execute(query)
 
         # Fetch data from the cursor
         data = cursor.fetchall()
 
         # Get the column names from the cursor description
-        column_names = [desc[0] for desc in cursor.description]
-        num_columns = len(column_names)
+        self.column_names = [desc[0] for desc in cursor.description]
+        num_columns = len(self.column_names)
 
         # Convert data to a 2D array
-        self.table_data = [column_names]  # Set the first row as column headers
+        self.table_data = [self.column_names]  # Set the first row as column headers
         self.table_data.extend([[str(value) for value in row] for row in data])  # Append the actual data
 
         # Clear the existing data in the table
@@ -42,7 +51,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
             self.table.delete_row(0)
 
         # Configure the table columns
-        self.table = CTkTable(self, column=len(column_names), header_color=("#3a7ebf", "#1f538d"), values=self.table_data, row=len(self.table_data))
+        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=self.table_data, row=len(self.table_data))
 
         # Set the column headings
-        self.table.headings = column_names
+        self.table.headings = self.column_names

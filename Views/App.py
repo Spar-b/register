@@ -57,7 +57,7 @@ class App(customtkinter.CTk):
         self.navbar_frame.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), weight=1)
         self.navbar_frame.grid(row=0, column=1, rowspan=1, sticky="new")
 
-        self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок")
+        self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=self.content_frame.add_empty_row)
         self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
 
     @staticmethod
@@ -69,6 +69,7 @@ class App(customtkinter.CTk):
             customtkinter.set_appearance_mode("Dark")
         if new_appearance_mode == "Системна":
             customtkinter.set_appearance_mode("System")
+
 
     def change_scaling_event(self, new_scaling: str):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
