@@ -5,7 +5,7 @@ from Utils.dbconnect import DBConnect
 
 
 class EnterData(customtkinter.CTkScrollableFrame):
-    def __init__(self, master=None, **kwargs):
+    def __init__(self, app, master=None, **kwargs):
         super().__init__(master, **kwargs)
 
         self.grid_rowconfigure((1, 2, 3, 4), weight=1)
@@ -51,7 +51,29 @@ class EnterData(customtkinter.CTkScrollableFrame):
             self.table.delete_row(0)
 
         # Configure the table columns
-        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=self.table_data, row=len(self.table_data))
+        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=self.table_data, row=len(self.table_data), command=self.create_popup)
 
         # Set the column headings
         self.table.headings = self.column_names
+
+    def create_popup(self, cell):
+        row = cell["row"]
+        column = cell["column"]
+
+        if row == 0:
+            return
+
+        popup = customtkinter.CTkToplevel()
+        popup.title("Edit Cell")
+        popup.grab_set()
+
+        entry = customtkinter.CTkEntry(popup)
+        entry.pack(padx=10, pady=10)
+
+        def save_and_close(event=None):
+            new_value = entry.get()
+            self.table.insert(row, column, new_value)
+            popup.destroy()
+
+        entry.bind("<Return>", save_and_close)
+        popup.protocol("WM_DELETE_WINDOW", popup.destroy)
