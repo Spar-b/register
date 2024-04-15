@@ -60,6 +60,7 @@ class App(customtkinter.CTk):
         self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=self.content_frame.add_empty_row)
         self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
         self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.save)
+        self.navbar_save_button.grid(row=2, column=1, sticky="nsew")
 
     @staticmethod
     def change_appearance_mode_event(new_appearance_mode: str):
@@ -84,6 +85,7 @@ class App(customtkinter.CTk):
     def to_enter_data(self):
         self.content_frame.destroy()
         self.content_frame = EnterData(self, fg_color=("#FFFFFF", "#000000"))
+        self.navbar_add_row_button.configure(command=self.content_frame.add_empty_row)
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
 
     def to_registration(self):

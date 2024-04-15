@@ -79,7 +79,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
         entry.bind("<Return>", save_and_close)
         popup.protocol("WM_DELETE_WINDOW", popup.destroy)
 
-    def save(self, subject_data):
+    def save(self):
+        subject_data = self.table_data[1:]
         try:
             db = DBConnect()
             cursor = db.db.cursor()
@@ -106,5 +107,3 @@ class EnterData(customtkinter.CTkScrollableFrame):
             print("Subjects saved successfully for user with ID:", stats.current_user.id)
         except Exception as e:
             print("Error saving subjects:", e)
-
-    def get_table_data(self):
