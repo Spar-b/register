@@ -28,6 +28,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.table.grid(row=0, column=0, columnspan=8)
 
     def add_empty_row(self):
+        # Error with adding a row to the table after switched content_frame at least once
         empty_row = [""] * self.table.columns
         self.table.add_row(values=empty_row)
 
