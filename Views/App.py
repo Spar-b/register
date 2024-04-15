@@ -59,6 +59,7 @@ class App(customtkinter.CTk):
 
         self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=self.content_frame.add_empty_row)
         self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
+        self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.save)
 
     @staticmethod
     def change_appearance_mode_event(new_appearance_mode: str):

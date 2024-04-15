@@ -2,6 +2,7 @@ import customtkinter
 from CTkTable import CTkTable
 import mysql.connector
 from Utils.dbconnect import DBConnect
+from Utils import stats as stats
 
 
 class EnterData(customtkinter.CTkScrollableFrame):
@@ -15,7 +16,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         cursor = db.db.cursor()
 
         self.table = CTkTable(self, column=1, row=1)
-        sql_query = f'''
+        self.sql_query = f'''
             SELECT subject.id, subject.subject_name
             FROM account_subject
             JOIN subject ON account_subject.subject_id = subject.id
@@ -23,7 +24,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         '''
         self.column_names = []
         self.table_data = []
-        self.populate_table(cursor, sql_query)
+        self.populate_table(cursor, self.sql_query)
 
         self.table.grid(row=0, column=0, columnspan=8)
 
@@ -77,3 +78,33 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         entry.bind("<Return>", save_and_close)
         popup.protocol("WM_DELETE_WINDOW", popup.destroy)
+
+    def save(self, subject_data):
+        try:
+            db = DBConnect()
+            cursor = db.db.cursor()
+            # Insert new subjects into the subjects table if they don't already exist
+            for subject_name in subject_data:
+                cursor.execute(
+                    "INSERT INTO subjects (subject_name) VALUES (%s) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)",
+                    (subject_name,))
+
+            # Retrieve the last inserted ID for each subject
+            cursor.execute("SELECT id FROM subjects WHERE subject_name IN %s", (tuple(subject_data),))
+            subject_ids = cursor.fetchall()
+
+            # Delete existing subjects for the user
+            cursor.execute("DELETE FROM account_subject WHERE user_id = %s", (stats.current_user.id,))
+
+            # Insert new subjects for the user
+            for subject_id in subject_ids:
+                cursor.execute("INSERT INTO account_subject (user_id, subject_id) VALUES (%s, %s)",
+                               (stats.current_user.id, subject_id[0]))
+
+            db.db.commit()
+            cursor.close()
+            print("Subjects saved successfully for user with ID:", stats.current_user.id)
+        except Exception as e:
+            print("Error saving subjects:", e)
+
+    def get_table_data(self):
