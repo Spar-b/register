@@ -42,7 +42,7 @@ class Login(ctk.CTkFrame):
 
         db = DBConnect()
         data = db.execute_query("SELECT * FROM accounts;")
-        ids = [id[1] for id in data]
+        ids = [id[0] for id in data]
         usernames = [username[1] for username in data]
         passwords = [password[2] for password in data]
 
@@ -50,7 +50,7 @@ class Login(ctk.CTkFrame):
         print(len(usernames))
         while i < len(usernames):
             if username == usernames[i] and password == passwords[i]:
-                stats.current_user = User(ids[i], usernames[i], passwords[i])
+                stats.current_user = User(ids[i],usernames[i], passwords[i])
                 print(f"Succesful login to {username}")
                 self.app.to_enter_data()
             i += 1
