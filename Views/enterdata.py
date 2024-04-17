@@ -26,12 +26,13 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.populate_table(cursor, self.sql_query)
 
         self.table.grid(row=0, column=0, columnspan=8)
+        empty_row = [""] * self.table.columns
+        self.table.add_row(empty_row)
 
     def add_empty_row(self):
         empty_row = [""] * self.table.columns
         stats.table_data.append(empty_row)
-        print(stats.table_data)
-        self.table.add_row(values=empty_row)
+        self.table.add_row(empty_row)
 
     def populate_table(self, cursor, query):
         # Execute the SQL query
@@ -56,7 +57,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=self.create_popup)
 
         # Set the column headings
-        self.table.headings = self.column_names
+        #self.table.headings = self.column_names
 
     def create_popup(self, cell):
         row = cell["row"]
@@ -71,13 +72,11 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         entry = customtkinter.CTkEntry(popup)
         entry.pack(padx=10, pady=10)
-        print(row,column)
 
         def save_and_close(event=None):
             new_value = entry.get()
             stats.table_data[row][column] = new_value
             self.table.update_values(stats.table_data)
-            print(stats.table_data)
             popup.destroy()
 
         entry.bind("<Return>", save_and_close)
