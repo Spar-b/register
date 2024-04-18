@@ -61,6 +61,13 @@ class App(customtkinter.CTk):
         self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
         self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.save)
         self.navbar_save_button.grid(row=2, column=1, sticky="nsew")
+        self.navbar_edit_button = customtkinter.CTkButton(self.navbar_frame, text="Редагування",
+                                                          command=EnterData.switch_to_edit)
+        self.navbar_edit_button.grid(row=1, column=2, sticky="nsew")
+
+        self.navbar_edit_button = customtkinter.CTkButton(self.navbar_frame, text="Перехід",
+                                                          command=EnterData.switch_to_open)
+        self.navbar_edit_button.grid(row=2, column=2, sticky="nsew")
 
     @staticmethod
     def change_appearance_mode_event(new_appearance_mode: str):

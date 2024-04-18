@@ -63,7 +63,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.table.destroy()
 
         # Configure the table columns
-        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=self.to_child)
+        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=self.table_on_click)
         self.table.grid(row=0, column=0, columnspan=8)
         print(self.table.values)
 
@@ -163,3 +163,18 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         self.populate_table(self.cursor, self.sql_query)
         print("Succesful switch to child")
+
+    def table_on_click(self, cell):
+        if stats.tool_mode == "Edit":
+            self.create_popup(cell)
+        if stats.tool_mode == "Open":
+            self.to_child(cell)
+
+    @staticmethod
+    def switch_to_edit():
+        stats.tool_mode = "Edit"
+        print("Switched to edit mode")
+    @staticmethod
+    def switch_to_open():
+        stats.tool_mode = "Open"
+        print("Switched to open mode")
