@@ -6,12 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="5a1b9a4e-68ae-4d08-a763-c2d82b024e98" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Department.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Department.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Grade.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Grade.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Group.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Specialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Specialization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Student.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Year.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Year.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/User_accounting/Subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/User_accounting/Subject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Views/enterdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/Views/enterdata.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -67,7 +82,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Views/enterdata.py</url>
-          <line>18</line>
+          <line>20</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

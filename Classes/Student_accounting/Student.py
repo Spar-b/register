@@ -4,3 +4,12 @@ class Student:
         self.email = email
         self.group_id = group_id
         self.grades = []
+
+    @staticmethod
+    def to_child(id):
+        sql_query = f'''
+                        SELECT * FROM grades WHERE student_id = {id};
+                    '''
+        from Utils import stats
+        stats.current_table = "grades"
+        return sql_query

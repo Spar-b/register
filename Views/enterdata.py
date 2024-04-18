@@ -1,6 +1,8 @@
 import customtkinter
 from CTkTable import CTkTable
 import mysql.connector
+
+import Classes.User_accounting.Subject
 from Utils.dbconnect import DBConnect
 from Utils import stats as stats
 
@@ -23,7 +25,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
             WHERE account_subject.account_id = {stats.current_user.id};
         '''
         self.column_names = []
-        self.populate_table(self.cursor, self.sql_query)
+        stats.current_user.subjects = self.populate_table(self.cursor, self.sql_query)
+        print(stats.current_user.subjects)
 
         self.table.grid(row=0, column=0, columnspan=8)
         empty_row = [""] * self.table.columns
@@ -50,7 +53,10 @@ class EnterData(customtkinter.CTkScrollableFrame):
         # Convert data to a 2D array
         stats.table_data = [self.column_names]  # Set the first row as column headers
         stats.table_data.extend([[str(value) for value in row] for row in data])  # Append the actual data
+
+        array = stats.table_data[1:]
         print(f"Table data: {stats.table_data}")
+        print(f"Array: {array}")
 
         # Clear the existing data in the table
         self.table.destroy()
@@ -60,10 +66,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.table.grid(row=0, column=0, columnspan=8)
         print(self.table.values)
 
-
-        # Set the column headings
         self.table.headings = self.column_names
-        #self.table.bind("<Double-Button-1>", lambda event, table=self.table: self.to_child)
+        return array
 
     def create_popup(self, cell):
         row = cell["row"]
@@ -136,13 +140,25 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         if row == 0:
             return
+
+        from Classes import User_accounting, Student_accounting
+        import Classes.Student_accounting.Department
+
         print(stats.table_data[row][0])
-        self.sql_query = f'''
-            SELECT d.*
-            FROM departments d
-            JOIN subject_department sd ON d.id = sd.department_id
-            JOIN subject s ON sd.subject_id = s.id
-            WHERE s.id = {stats.table_data[row][0]};
-        '''
+        id = stats.table_data[row][0]
+
+        if stats.current_table == "groups":
+            self.sql_query = Classes.Student_accounting.Student.Student.to_child(id)
+        if stats.current_table == "years":
+            self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
+        if stats.current_table == "specializations":
+            self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
+        if stats.current_table == "departments":
+            self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
+        if stats.current_table == "subjects":
+            self.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
+
+        print(stats.current_table)
+
         self.populate_table(self.cursor, self.sql_query)
         print("Succesful switch to child")
