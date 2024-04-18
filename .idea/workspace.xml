@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a1b9a4e-68ae-4d08-a763-c2d82b024e98" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Department.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Department.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Grade.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Grade.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Group.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Specialization.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Specialization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Student.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/Student_accounting/Year.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Student_accounting/Year.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/User_accounting/Subject.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/User_accounting/Subject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Views/enterdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/Views/enterdata.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -15,6 +22,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> sparb
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -22,9 +32,12 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
 =======
+=======
+>>>>>>> sparb
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -44,6 +57,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.App.executor": "Run",
@@ -76,6 +90,18 @@
       <recent name="C:\Users\spart\PycharmProjects\cursach\Classes\Misc" />
     </key>
   </component>
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.App.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enterdata.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sparb&quot;
+  }
+}</component>
+>>>>>>> sparb
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -93,5 +119,19 @@
       <updated>1712681269512</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Views/enterdata.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

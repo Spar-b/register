@@ -1,6 +1,8 @@
 import customtkinter
 from CTkTable import CTkTable
 import mysql.connector
+
+import Classes.User_accounting.Subject
 from Utils.dbconnect import DBConnect
 from Utils import stats as stats
 
@@ -12,8 +14,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.grid_rowconfigure((1, 2, 3, 4), weight=1)
         self.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8), weight=1)
 
-        db = DBConnect()
-        cursor = db.db.cursor()
+        self.db = DBConnect()
+        self.cursor = self.db.db.cursor()
 
         self.table = CTkTable(self, column=1, row=1)
         self.sql_query = f'''
@@ -23,7 +25,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
             WHERE account_subject.account_id = {stats.current_user.id};
         '''
         self.column_names = []
-        self.populate_table(cursor, self.sql_query)
+        stats.current_user.subjects = self.populate_table(self.cursor, self.sql_query)
+        print(stats.current_user.subjects)
 
         self.table.grid(row=0, column=0, columnspan=8)
         empty_row = [""] * self.table.columns
@@ -41,24 +44,31 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         # Fetch data from the cursor
         data = cursor.fetchall()
+        print(f"Data: {data}")
 
         # Get the column names from the cursor description
         self.column_names = [desc[0] for desc in cursor.description]
+        print(f"Column names: {self.column_names}")
         num_columns = len(self.column_names)
 
         # Convert data to a 2D array
         stats.table_data = [self.column_names]  # Set the first row as column headers
         stats.table_data.extend([[str(value) for value in row] for row in data])  # Append the actual data
 
+        array = stats.table_data[1:]
+        print(f"Table data: {stats.table_data}")
+        print(f"Array: {array}")
+
         # Clear the existing data in the table
-        for i in range(0, self.table.rows):
-            self.table.delete_row(0)
+        self.table.destroy()
 
         # Configure the table columns
-        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=self.create_popup)
+        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=self.to_child)
+        self.table.grid(row=0, column=0, columnspan=8)
+        print(self.table.values)
 
-        # Set the column headings
-        #self.table.headings = self.column_names
+        self.table.headings = self.column_names
+        return array
 
     def create_popup(self, cell):
         row = cell["row"]
@@ -124,3 +134,32 @@ class EnterData(customtkinter.CTkScrollableFrame):
             cursor.close()
         except Exception as e:
             print("Error saving subjects:", e)
+
+    def to_child(self, cell):
+        row = cell["row"]
+        column = cell["column"]
+
+        if row == 0:
+            return
+
+        from Classes import User_accounting, Student_accounting
+        import Classes.Student_accounting.Department
+
+        print(stats.table_data[row][0])
+        id = stats.table_data[row][0]
+
+        if stats.current_table == "groups":
+            self.sql_query = Classes.Student_accounting.Student.Student.to_child(id)
+        if stats.current_table == "years":
+            self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
+        if stats.current_table == "specializations":
+            self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
+        if stats.current_table == "departments":
+            self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
+        if stats.current_table == "subjects":
+            self.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
+
+        print(stats.current_table)
+
+        self.populate_table(self.cursor, self.sql_query)
+        print("Succesful switch to child")
