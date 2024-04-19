@@ -30,7 +30,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         self.table.grid(row=0, column=0, columnspan=8)
         empty_row = [""] * self.table.columns
-        self.table.add_row(empty_row)
+        #self.table.add_row(empty_row)
+        stats.current_table = "subjects"
 
     def add_empty_row(self):
         # Error with adding a row to the table after switched content_frame at least once
@@ -144,16 +145,22 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         from Classes import User_accounting, Student_accounting
         import Classes.Student_accounting.Department
+        import Classes.Student_accounting.Specialization
+        import Classes.Student_accounting.Year
+        import Classes.Student_accounting.Group
+        import Classes.Student_accounting.Student
 
         print(stats.table_data[row][0])
         id = stats.table_data[row][0]
 
-        if stats.current_table == "groups":
+        if stats.current_table == "students":
             self.sql_query = Classes.Student_accounting.Student.Student.to_child(id)
-        if stats.current_table == "years":
+        if stats.current_table == "groups":
             self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
-        if stats.current_table == "specializations":
+        if stats.current_table == "years":
             self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
+        if stats.current_table == "specializations":
+            self.sql_query = Classes.Student_accounting.Specialization.Specialization.to_child(id)
         if stats.current_table == "departments":
             self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
         if stats.current_table == "subjects":
