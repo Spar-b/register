@@ -27,7 +27,6 @@ class App(customtkinter.CTk):
 
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
-        self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
 
         self.content_frame = EnterData(self, fg_color=("#F5F5F5", "#000000"))
@@ -55,7 +54,6 @@ class App(customtkinter.CTk):
         self.navbar_frame = customtkinter.CTkFrame(self, corner_radius=0, height=100)
         self.navbar_frame.grid_rowconfigure((1, 2, 3), weight=1)
         self.navbar_frame.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), weight=1)
-        self.navbar_frame.grid(row=0, column=1, rowspan=1, sticky="new")
 
         self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=self.content_frame.add_empty_row)
         self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
@@ -68,6 +66,8 @@ class App(customtkinter.CTk):
         self.navbar_edit_button = customtkinter.CTkButton(self.navbar_frame, text="Перехід",
                                                           command=EnterData.switch_to_open)
         self.navbar_edit_button.grid(row=2, column=2, sticky="nsew")
+
+        self.to_authorization()
 
     @staticmethod
     def change_appearance_mode_event(new_appearance_mode: str):
@@ -86,17 +86,24 @@ class App(customtkinter.CTk):
 
     def to_authorization(self):
         self.content_frame.destroy()
+        self.navbar_frame.grid_remove()
+        self.sidebar_frame.grid_remove()
         self.content_frame = Login(self, self, fg_color=("#FFFFFF", "#000000"))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
 
     def to_enter_data(self):
         self.content_frame.destroy()
+        self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
+        self.navbar_frame.grid(row=0, column=1, sticky="nsew", rowspan=1)
         self.content_frame = EnterData(self, fg_color=("#FFFFFF", "#000000"))
         self.navbar_add_row_button.configure(command=self.content_frame.add_empty_row)
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
+        self.navbar_frame.grid(row=0, column=1, rowspan=1, sticky="new")
 
     def to_registration(self):
         self.content_frame.destroy()
+        self.navbar_frame.grid_remove()
+        self.sidebar_frame.grid_remove()
         self.content_frame = Register(self, self, fg_color=("#FFFFFF", "#000000"))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
 
