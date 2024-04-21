@@ -56,6 +56,52 @@ class EnterData(customtkinter.CTkScrollableFrame):
         stats.table_data = [self.column_names]  # Set the first row as column headers
         stats.table_data.extend([[str(value) for value in row] for row in data])  # Append the actual data
 
+
+
+        if stats.current_table == "subjects":
+            from Classes.User_accounting.Subject import Subject
+            from Classes.Misc.UserSubject import UserSubject
+            for row in data:
+                subject = Subject(row[0], row[1])
+                user_subject = UserSubject(stats.current_user.id, row[0])
+                stats.local_tables.subjects.append(subject)
+                stats.local_tables.user_subjects.append(user_subject)
+
+        if stats.current_table == "departments":
+            from Classes.Student_accounting.Department import Department
+            from Classes.Misc.SubjectDepartment import SubjectDepartment
+            for row in data:
+                department = Department(row[0], row[1])
+                subject_department = SubjectDepartment(stats.current_parent_id, row[0])
+                stats.local_tables.departments.append(department)
+                stats.local_tables.subject_departments.append(subject_department)
+
+        if stats.current_table == "specializations":
+            from Classes.Student_accounting.Specialization import Specialization
+            for row in data:
+                specialization = Specialization(row[0], row[1], stats.current_parent_id)
+                stats.local_tables.specializations.append(specialization)
+
+        if stats.current_table == "years":
+            from Classes.Student_accounting.Year import Year
+            for row in data:
+                year = Year(row[0], stats.current_parent_id)
+                stats.local_tables.years.append(year)
+
+        if stats.current_table == "groups":
+            import Classes.Student_accounting.Group as Group
+            for row in data:
+                group = Group.Group(row[0], stats.current_parent_id)
+                stats.local_tables.groups.append(group)
+
+        if stats.current_table == "students":
+            from Classes.Student_accounting.Student import Student
+            for row in data:
+                student = Student(row[0], row[1], stats.current_parent_id)
+                if len(row) == 4:
+                    student.email = row[3]
+                stats.local_tables.students.append(student)
+
         array = stats.table_data[1:]
         print(f"Table data: {stats.table_data}")
         print(f"Array: {array}")
@@ -95,46 +141,14 @@ class EnterData(customtkinter.CTkScrollableFrame):
         popup.protocol("WM_DELETE_WINDOW", popup.destroy)
 
     def save(self):
-        print(stats.table_data)
-        subject_data = stats.table_data[1:]
-        try:
-            db = DBConnect()
-            cursor = db.db.cursor()
-            subject_names = [name[1] for name in subject_data]
-            ids = [id[0] for id in subject_data]
-            print(ids)
-
-            # Insert new subjects into the subjects table if they don't already exist
-            for i in range(len(subject_names)):
-                cursor.execute("""
-                    INSERT INTO subject (id, subject_name)
-                    VALUES (%s, %s)
-                    ON DUPLICATE KEY
-                    UPDATE subject_name = VALUES(subject_name)
-                """,
-                               (ids[i], subject_names[i]))
-
-            # Check if the account_id exists in the accounts table
-            cursor.execute("SELECT id FROM accounts WHERE id = %s", (stats.current_user.id,))
-            account_exists = cursor.fetchone()
-
-            if account_exists:
-                # Delete existing subjects for the user
-                cursor.execute("DELETE FROM account_subject WHERE account_id = %s", (stats.current_user.id,))
-
-                # Insert new subjects for the user
-                for subject_id, _ in subject_data:
-                    cursor.execute("INSERT INTO account_subject (account_id, subject_id) VALUES (%s, %s)",
-                                   (stats.current_user.id, subject_id))
-
-                db.db.commit()
-                print("Subjects saved successfully for user with ID:", stats.current_user.id)
-            else:
-                print(f"Account with ID {stats.current_user.id} does not exist in the accounts table.")
-
-            cursor.close()
-        except Exception as e:
-            print("Error saving subjects:", e)
+        print(stats.local_tables.user_subjects)
+        print(stats.local_tables.subjects)
+        print(stats.local_tables.subject_departments)
+        print(stats.local_tables.departments)
+        print(stats.local_tables.specializations)
+        print(stats.local_tables.years)
+        print(stats.local_tables.groups)
+        print(stats.local_tables.students)
 
     def to_child(self, cell):
         row = cell["row"]
@@ -149,6 +163,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         import Classes.Student_accounting.Year
         import Classes.Student_accounting.Group
         import Classes.Student_accounting.Student
+
 
         print(stats.table_data[row][0])
         id = stats.table_data[row][0]
@@ -175,6 +190,53 @@ class EnterData(customtkinter.CTkScrollableFrame):
         if stats.tool_mode == "Edit":
             self.create_popup(cell)
         if stats.tool_mode == "Open":
+            data = stats.table_data[1:]
+            if stats.current_table == "subjects":
+                from Classes.User_accounting.Subject import Subject
+                from Classes.Misc.UserSubject import UserSubject
+                for row in data:
+                    subject = Subject(row[0], row[1])
+                    user_subject = UserSubject(stats.current_user.id, row[0])
+                    stats.local_tables.subjects.append(subject)
+                    stats.local_tables.user_subjects.append(user_subject)
+
+            if stats.current_table == "departments":
+                from Classes.Student_accounting.Department import Department
+                from Classes.Misc.SubjectDepartment import SubjectDepartment
+                for row in data:
+                    department = Department(row[0], row[1])
+                    subject_department = SubjectDepartment(stats.current_parent_id, row[0])
+                    stats.local_tables.departments.append(department)
+                    stats.local_tables.subject_departments.append(subject_department)
+
+            if stats.current_table == "specializations":
+                from Classes.Student_accounting.Specialization import Specialization
+                for row in data:
+                    specialization = Specialization(row[0], row[1], stats.current_parent_id)
+                    stats.local_tables.specializations.append(specialization)
+
+            if stats.current_table == "years":
+                from Classes.Student_accounting.Year import Year
+                for row in data:
+                    year = Year(row[0], stats.current_parent_id)
+                    stats.local_tables.years.append(year)
+
+            if stats.current_table == "groups":
+                import Classes.Student_accounting.Group as Group
+                for row in data:
+                    group = Group.Group(row[0], stats.current_parent_id)
+                    stats.local_tables.groups.append(group)
+
+            if stats.current_table == "students":
+                from Classes.Student_accounting.Student import Student
+                for row in data:
+                    student = Student(row[0], row[1], stats.current_parent_id)
+                    if len(row) == 4:
+                        student.email = row[3]
+                    stats.local_tables.students.append(student)
+
+            stats.current_parent_id = stats.table_data[cell["row"]][0]
+            print(f"Current parent id: {stats.current_parent_id}")
             self.to_child(cell)
 
     @staticmethod

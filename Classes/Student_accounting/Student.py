@@ -1,6 +1,7 @@
 class Student:
-    def __init__(self, id, email, group_id):
+    def __init__(self, id, name, group_id, email="None"):
         self.id = id
+        self.name = name
         self.email = email
         self.group_id = group_id
         self.grades = []

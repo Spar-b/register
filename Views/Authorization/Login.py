@@ -50,7 +50,8 @@ class Login(ctk.CTkFrame):
         print(len(usernames))
         while i < len(usernames):
             if username == usernames[i] and password == passwords[i]:
-                stats.current_user = User(ids[i],usernames[i], passwords[i])
+                stats.current_user = User(ids[i], usernames[i], passwords[i])
                 print(f"Succesful login to {username}")
+                stats.current_parent_id = ids[i]
                 self.app.to_enter_data()
             i += 1
