@@ -63,9 +63,9 @@ class App(customtkinter.CTk):
                                                           command=EnterData.switch_to_edit)
         self.navbar_edit_button.grid(row=1, column=2, sticky="nsew")
 
-        self.navbar_edit_button = customtkinter.CTkButton(self.navbar_frame, text="Перехід",
+        self.navbar_open_button = customtkinter.CTkButton(self.navbar_frame, text="Перехід",
                                                           command=EnterData.switch_to_open)
-        self.navbar_edit_button.grid(row=2, column=2, sticky="nsew")
+        self.navbar_open_button.grid(row=2, column=2, sticky="nsew")
 
         self.to_authorization()
 
@@ -93,6 +93,7 @@ class App(customtkinter.CTk):
 
     def to_enter_data(self):
         self.content_frame.destroy()
+        self.navbar_frame.configure()
         self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
         self.navbar_frame.grid(row=0, column=1, sticky="nsew", rowspan=1)
         self.content_frame = EnterData(self, fg_color=("#FFFFFF", "#000000"))
