@@ -125,6 +125,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 stats.local_tables.departments.append(department)
                 stats.local_tables.subject_departments.append(subject_department)
 
+                Department.save_all(data, self.db)
+
         if stats.current_table == "specializations":
             from Classes.Student_accounting.Specialization import Specialization
             for row in data:
@@ -203,6 +205,17 @@ class EnterData(customtkinter.CTkScrollableFrame):
             stats.current_parent_id = stats.table_data[cell["row"]][0]
             print(f"Current parent id: {stats.current_parent_id}")
             self.to_child(cell)
+        if stats.tool_mode == "Delete":
+            id_to_delete = stats.table_data[cell["row"]][0]
+            self.delete_item(id_to_delete)
+
+    def delete_item(self, id_to_delete):
+        for row in stats.table_data:
+            if row[0] == id_to_delete:
+                stats.table_data.pop(int(id_to_delete))
+                print(f"Item with id={id_to_delete} was successfully deleted")
+                self.table.update_values(stats.table_data)
+                self.table.delete_row(self.table.rows-1)
 
     @staticmethod
     def switch_to_edit():
@@ -212,3 +225,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
     def switch_to_open():
         stats.tool_mode = "Open"
         print("Switched to open mode")
+
+    @staticmethod
+    def switch_to_delete():
+        stats.tool_mode = "Delete"
+        print("Switched to delete mode")
