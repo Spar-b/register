@@ -133,17 +133,23 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 specialization = Specialization(row[0], row[1], stats.current_parent_id)
                 stats.local_tables.specializations.append(specialization)
 
+                Specialization.save_all(data, self.db)
+
         if stats.current_table == "years":
             from Classes.Student_accounting.Year import Year
             for row in data:
                 year = Year(row[0], stats.current_parent_id)
                 stats.local_tables.years.append(year)
 
+                Year.save_all(data, self.db)
+
         if stats.current_table == "groups":
             import Classes.Student_accounting.Group as Group
             for row in data:
                 group = Group.Group(row[0], stats.current_parent_id)
                 stats.local_tables.groups.append(group)
+
+                Group.Group.save_all(data, self.db)
 
         if stats.current_table == "students":
             from Classes.Student_accounting.Student import Student
