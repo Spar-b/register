@@ -143,7 +143,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
                 Year.save_all(data, self.db)
 
-        if stats.current_table == "groups":
+        if stats.current_table == "student_groups":
             import Classes.Student_accounting.Group as Group
             for row in data:
                 group = Group.Group(row[0], stats.current_parent_id)
@@ -186,10 +186,11 @@ class EnterData(customtkinter.CTkScrollableFrame):
         print(stats.table_data[row][0])
         id = stats.table_data[row][0]
 
-        if stats.current_table == "students":
-            self.sql_query = Classes.Student_accounting.Student.Student.to_child(id)
-        if stats.current_table == "groups":
+        if stats.current_table == "student_groups":
             self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
+            #self.cursor.execute(self.sql_query)
+            #Classes.Student_accounting.Group.form_table(self.table, self.cursor.fetchall())
+            #return
         if stats.current_table == "years":
             self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
         if stats.current_table == "specializations":
