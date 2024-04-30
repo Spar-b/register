@@ -37,8 +37,7 @@ class App(customtkinter.CTk):
         self.authorization_button.grid(row=1, column=0, padx=20, pady=10)
         self.enter_data_button = customtkinter.CTkButton(self.sidebar_frame, command=self.to_enter_data, text='Ввід даних')
         self.enter_data_button.grid(row=2, column=0, padx=20, pady=10)
-        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame)
-        self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
+
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Тема:", anchor="w")
         self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionmenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Системна", "Світла", "Темна"],
