@@ -11,7 +11,7 @@ class Subject:
     @staticmethod
     def get_all_for_user(id):
         sql_query = f'''
-                    SELECT subjects.id, subjects.subject_name
+                    SELECT subjects.id AS '№', subjects.subject_name AS 'Назва предмету'
                     FROM account_subject
                     JOIN subjects ON account_subject.subject_id = subjects.id
                     WHERE account_subject.account_id = {id};

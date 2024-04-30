@@ -18,12 +18,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.cursor = self.db.db.cursor()
 
         self.table = CTkTable(self, column=1, row=1)
-        self.sql_query = f'''
-            SELECT subjects.id, subjects.subject_name
-            FROM account_subject
-            JOIN subjects ON account_subject.subject_id = subjects.id
-            WHERE account_subject.account_id = {stats.current_user.id};
-        '''
+        from Classes.User_accounting.Subject import Subject
+        self.sql_query = Subject.get_all_for_user(stats.current_user.id)
         self.column_names = []
         stats.current_user.subjects = self.populate_table(self.cursor, self.sql_query)
         print(stats.current_user.subjects)
@@ -53,6 +49,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         # Get the column names from the cursor description
         self.column_names = [desc[0] for desc in cursor.description]
+        print(cursor.description)
         print(f"Column names: {self.column_names}")
         num_columns = len(self.column_names)
 
@@ -79,6 +76,33 @@ class EnterData(customtkinter.CTkScrollableFrame):
         self.table.headings = self.column_names
         return array
 
+    def populate_students_table(self):
+        sql_query = f'''
+                        SELECT name FROM students WHERE group_id = {stats.current_parent_id};
+                '''
+        self.cursor.execute(sql_query)
+        student_data = self.cursor.fetchall()
+        student_list = [(idx + 1, name[0], *(None,) * 25) for idx, name in enumerate(student_data)]
+
+        # Add headings
+        self.column_names = ['№', 'ПІБ студента'] + [' '] * 25
+
+        # Combine headings and student_list
+        stats.table_data = [self.column_names] + student_list
+
+        self.table.destroy()
+
+        # Configure the table columns
+        self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"),
+                              values=stats.table_data, row=len(stats.table_data), command=self.table_on_click)
+        #self.table.grid(row=0, column=0, columnspan=8)
+        self.table.pack(fill='both', expand=True)
+
+        # Increase the width of the "ПІБ студента" column
+        default_column_width = self.table.cget("ctkbutton_width")
+        self.table.configure(column=1, ctkbutton_width=default_column_width * 2)
+
+        print(f"Table data: {stats.table_data}")
     def create_popup(self, cell):
         row = cell["row"]
         column = cell["column"]
@@ -188,9 +212,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         if stats.current_table == "student_groups":
             self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
-            #self.cursor.execute(self.sql_query)
-            #Classes.Student_accounting.Group.form_table(self.table, self.cursor.fetchall())
-            #return
+            self.populate_students_table()
+            return
         if stats.current_table == "years":
             self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
         if stats.current_table == "specializations":

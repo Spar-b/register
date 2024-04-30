@@ -10,30 +10,11 @@ class Group:
     @staticmethod
     def to_child(id):
         sql_query = f'''
-                    SELECT s.name, g.grade_value
-                    FROM students s
-                    JOIN grades g ON s.id = g.student_id
-                    WHERE s.group_id = {stats.current_parent_id};
-                '''
+                    SELECT id, name FROM students WHERE group_id = {id}
+        '''
         stats.current_table = "students"
         print("Groups --> Students")
         return sql_query
-
-    @staticmethod
-    def form_table(table, cursor, query, parent):
-        cursor.execute(query)
-
-        # Fetch data from the cursor
-        data = cursor.fetchall()
-        column_names = [desc[0] for desc in cursor.description]
-        print(f"Column names: {column_names}")
-        num_columns = len(column_names)
-
-        # Convert data to a 2D array
-        stats.table_data = [column_names]  # Set the first row as column headers
-        stats.table_data.extend([[str(value) for value in row] for row in data])  # Append the actual data
-
-
 
     @staticmethod
     def save_all(data, db):
