@@ -121,6 +121,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
             new_value = entry.get()
             stats.table_data[row][column] = new_value
             self.table.update_values(stats.table_data)
+            stats.edits_made = True
             popup.destroy()
 
         entry.bind("<Return>", save_and_close)
@@ -139,6 +140,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 stats.local_tables.user_subjects.append(user_subject)
 
                 Subject.save_all(data, self.db)
+                stats.table_saved = True
 
         if stats.current_table == "departments":
             from Classes.Student_accounting.Department import Department
@@ -150,6 +152,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 stats.local_tables.subject_departments.append(subject_department)
 
                 Department.save_all(data, self.db)
+                stats.table_saved = True
 
         if stats.current_table == "specializations":
             from Classes.Student_accounting.Specialization import Specialization
@@ -158,6 +161,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 stats.local_tables.specializations.append(specialization)
 
                 Specialization.save_all(data, self.db)
+                stats.table_saved = True
 
         if stats.current_table == "years":
             from Classes.Student_accounting.Year import Year
@@ -166,6 +170,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 stats.local_tables.years.append(year)
 
                 Year.save_all(data, self.db)
+                stats.table_saved = True
 
         if stats.current_table == "student_groups":
             import Classes.Student_accounting.Group as Group
@@ -174,6 +179,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 stats.local_tables.groups.append(group)
 
                 Group.Group.save_all(data, self.db)
+                stats.table_saved = True
 
         if stats.current_table == "students":
             from Classes.Student_accounting.Student import Student
@@ -211,17 +217,42 @@ class EnterData(customtkinter.CTkScrollableFrame):
         id = stats.table_data[row][0]
 
         if stats.current_table == "student_groups":
-            self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
-            self.populate_students_table()
-            return
+            if stats.table_saved == stats.edits_made or stats.table_saved:
+                self.refresh_save_stats()
+                self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
+                self.populate_students_table()
+                return
+            else:
+                self.table_not_saved_popup()
+                return
         if stats.current_table == "years":
-            self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
+            if stats.table_saved == stats.edits_made or stats.table_saved:
+                self.refresh_save_stats()
+                self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
+            else:
+                self.table_not_saved_popup()
+                return
         if stats.current_table == "specializations":
-            self.sql_query = Classes.Student_accounting.Specialization.Specialization.to_child(id)
+            if stats.table_saved == stats.edits_made or stats.table_saved:
+                self.refresh_save_stats()
+                self.sql_query = Classes.Student_accounting.Specialization.Specialization.to_child(id)
+            else:
+                self.table_not_saved_popup()
+                return
         if stats.current_table == "departments":
-            self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
+            if stats.table_saved == stats.edits_made or stats.table_saved:
+                self.refresh_save_stats()
+                self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
+            else:
+                self.table_not_saved_popup()
+                return
         if stats.current_table == "subjects":
-            self.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
+            if stats.table_saved == stats.edits_made or stats.table_saved:
+                self.refresh_save_stats()
+                self.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
+            else:
+                self.table_not_saved_popup()
+                return
 
         print(stats.current_table)
 
@@ -260,3 +291,17 @@ class EnterData(customtkinter.CTkScrollableFrame):
     def switch_to_delete():
         stats.tool_mode = "Delete"
         print("Switched to delete mode")
+
+    def table_not_saved_popup(self):
+        popup = customtkinter.CTkToplevel()
+        popup.title("Edit Cell")
+        popup.grab_set()
+
+        label = customtkinter.CTkLabel(popup, text="Таблиця не збережена. Будь ласка збережіть зміни")
+        label.pack(padx=10, pady=10)
+
+        popup.protocol("WM_DELETE_WINDOW", popup.destroy)
+
+    def refresh_save_stats(self):
+        stats.table_saved = False
+        stats.edits_made = False

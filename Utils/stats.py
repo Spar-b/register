@@ -7,4 +7,7 @@ current_table = "subjects"
 current_parent_id = -1
 table_data = []
 tool_mode = "Edit"
+table_saved = False
+edits_made = False
 local_tables = LocalTables()
+
