@@ -42,7 +42,7 @@ class Subject:
     @staticmethod
     def to_child(id):
         sql_query = f'''
-            SELECT d.*
+            SELECT d.id AS '№', d.name AS 'Назва відділення'
             FROM departments d
             JOIN subject_department sd ON d.id = sd.department_id
             JOIN subjects s ON sd.subject_id = s.id
