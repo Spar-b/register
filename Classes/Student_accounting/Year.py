@@ -8,7 +8,7 @@ class Year:
     @staticmethod
     def to_child(id):
         sql_query = f'''
-                SELECT id, name FROM student_groups WHERE year_id = {id};
+                SELECT id AS '№', name AS 'Назва групи' FROM student_groups WHERE year_id = {id};
             '''
         stats.current_table = "student_groups"
         print("Years --> Groups")

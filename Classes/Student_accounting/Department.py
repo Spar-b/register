@@ -9,7 +9,7 @@ class Department:
     @staticmethod
     def to_child(id):
         sql_query = f'''
-            SELECT id, name FROM specializations WHERE department_id = {id};
+            SELECT id AS '№', name AS 'Назва спеціальності' FROM specializations WHERE department_id = {id};
         '''
         stats.current_table = "specializations"
         print("Departments --> Specializations")
