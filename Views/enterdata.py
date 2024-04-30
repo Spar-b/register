@@ -300,6 +300,13 @@ class EnterData(customtkinter.CTkScrollableFrame):
         label = customtkinter.CTkLabel(popup, text="Таблиця не збережена. Будь ласка збережіть зміни")
         label.pack(padx=10, pady=10)
 
+        def ignore(popup):
+            self.refresh_save_stats()
+            popup.destroy()
+
+        ignore_button = customtkinter.CTkButton(popup, text="Ігнорувати", command=lambda: ignore(popup))
+        ignore_button.pack()
+
         popup.protocol("WM_DELETE_WINDOW", popup.destroy)
 
     def refresh_save_stats(self):
