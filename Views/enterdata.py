@@ -85,12 +85,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"),
                               values=stats.table_data, row=len(stats.table_data), command=self.table_on_click)
-        #self.table.grid(row=0, column=0, columnspan=8)
-        self.table.pack(fill='both', expand=True)
 
-        # Increase the width of the "ПІБ студента" column
-        default_column_width = self.table.cget("ctkbutton_width")
-        self.table.configure(column=1, ctkbutton_width=default_column_width * 2)
+        self.table.pack(fill='both', expand=True)
 
         print(f"Table data: {stats.table_data}")
     def create_popup(self, cell):
