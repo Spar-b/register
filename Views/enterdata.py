@@ -190,6 +190,11 @@ class EnterData(customtkinter.CTkScrollableFrame):
             return
 
         import Classes
+        import Classes.Student_accounting
+        import Classes.Student_accounting.Group
+        import Classes.Student_accounting.Year
+        import Classes.Student_accounting.Specialization
+        import Classes.Student_accounting.Department
 
         print(stats.table_data[row][0])
         id = stats.table_data[row][0]
