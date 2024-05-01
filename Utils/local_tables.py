@@ -9,3 +9,7 @@ class LocalTables:
         self.years = []
         self.groups = []
         self.students = []
+
+    def print_all(self):
+        for name, value in vars(self).items():
+            print(f"{name}: {value}")

@@ -40,34 +40,25 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
 
     def populate_table(self, cursor, query):
-        # Execute the SQL query
         cursor.execute(query)
 
-        # Fetch data from the cursor
         data = cursor.fetchall()
         print(f"Data: {data}")
 
-        # Get the column names from the cursor description
         self.column_names = [desc[0] for desc in cursor.description]
         print(cursor.description)
         print(f"Column names: {self.column_names}")
         num_columns = len(self.column_names)
 
-        # Convert data to a 2D array
-        stats.table_data = [self.column_names]  # Set the first row as column headers
-        stats.table_data.extend([[str(value) for value in row] for row in data])  # Append the actual data
+        stats.table_data = [self.column_names]
+        stats.table_data.extend([[str(value) for value in row] for row in data])
 
         array = stats.table_data[1:]
 
-        # Clear the existing data in the table
         self.table.destroy()
 
-        # Configure the table columns
         self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=self.table_on_click)
         self.table.grid(row=0, column=0, columnspan=8)
-
-        #empty_row = [""] * self.table.columns
-        #self.table.add_row(empty_row)
 
         print(f"Stats data: {stats.table_data}")
         print(f"Table data: {self.table.values}")
@@ -92,7 +83,6 @@ class EnterData(customtkinter.CTkScrollableFrame):
 
         self.table.destroy()
 
-        # Configure the table columns
         self.table = CTkTable(self, column=len(self.column_names), header_color=("#3a7ebf", "#1f538d"),
                               values=stats.table_data, row=len(stats.table_data), command=self.table_on_click)
         #self.table.grid(row=0, column=0, columnspan=8)
@@ -130,73 +120,67 @@ class EnterData(customtkinter.CTkScrollableFrame):
     def save(self):
         data = stats.table_data[1:]
         print(f"save_data: {data}")
-        if stats.current_table == "subjects":
-            from Classes.User_accounting.Subject import Subject
-            from Classes.Misc.UserSubject import UserSubject
-            for row in data:
-                subject = Subject(row[0], row[1])
-                user_subject = UserSubject(stats.current_user.id, row[0])
-                stats.local_tables.subjects.append(subject)
-                stats.local_tables.user_subjects.append(user_subject)
+        match stats.current_table:
+            case "subjects":
+                from Classes.User_accounting.Subject import Subject
+                from Classes.Misc.UserSubject import UserSubject
+                for row in data:
+                    subject = Subject(row[0], row[1])
+                    user_subject = UserSubject(stats.current_user.id, row[0])
+                    stats.local_tables.subjects.append(subject)
+                    stats.local_tables.user_subjects.append(user_subject)
 
-                Subject.save_all(data, self.db)
-                stats.table_saved = True
+                    Subject.save_all(data, self.db)
+                    stats.table_saved = True
 
-        if stats.current_table == "departments":
-            from Classes.Student_accounting.Department import Department
-            from Classes.Misc.SubjectDepartment import SubjectDepartment
-            for row in data:
-                department = Department(row[0], row[1])
-                subject_department = SubjectDepartment(stats.current_parent_id, row[0])
-                stats.local_tables.departments.append(department)
-                stats.local_tables.subject_departments.append(subject_department)
+            case "departments":
+                from Classes.Student_accounting.Department import Department
+                from Classes.Misc.SubjectDepartment import SubjectDepartment
+                for row in data:
+                    department = Department(row[0], row[1])
+                    subject_department = SubjectDepartment(stats.current_parent_id, row[0])
+                    stats.local_tables.departments.append(department)
+                    stats.local_tables.subject_departments.append(subject_department)
 
-                Department.save_all(data, self.db)
-                stats.table_saved = True
+                    Department.save_all(data, self.db)
+                    stats.table_saved = True
 
-        if stats.current_table == "specializations":
-            from Classes.Student_accounting.Specialization import Specialization
-            for row in data:
-                specialization = Specialization(row[0], row[1], stats.current_parent_id)
-                stats.local_tables.specializations.append(specialization)
+            case "specializations":
+                from Classes.Student_accounting.Specialization import Specialization
+                for row in data:
+                    specialization = Specialization(row[0], row[1], stats.current_parent_id)
+                    stats.local_tables.specializations.append(specialization)
 
-                Specialization.save_all(data, self.db)
-                stats.table_saved = True
+                    Specialization.save_all(data, self.db)
+                    stats.table_saved = True
 
-        if stats.current_table == "years":
-            from Classes.Student_accounting.Year import Year
-            for row in data:
-                year = Year(row[0], stats.current_parent_id)
-                stats.local_tables.years.append(year)
+            case "years":
+                from Classes.Student_accounting.Year import Year
+                for row in data:
+                    year = Year(row[0], stats.current_parent_id)
+                    stats.local_tables.years.append(year)
 
-                Year.save_all(data, self.db)
-                stats.table_saved = True
+                    Year.save_all(data, self.db)
+                    stats.table_saved = True
 
-        if stats.current_table == "student_groups":
-            import Classes.Student_accounting.Group as Group
-            for row in data:
-                group = Group.Group(row[0], stats.current_parent_id)
-                stats.local_tables.groups.append(group)
+            case "student_groups":
+                import Classes.Student_accounting.Group as Group
+                for row in data:
+                    group = Group.Group(row[0], stats.current_parent_id)
+                    stats.local_tables.groups.append(group)
 
-                Group.Group.save_all(data, self.db)
-                stats.table_saved = True
+                    Group.Group.save_all(data, self.db)
+                    stats.table_saved = True
 
-        if stats.current_table == "students":
-            from Classes.Student_accounting.Student import Student
-            for row in data:
-                student = Student(row[0], row[1], stats.current_parent_id)
-                if len(row) == 4:
-                    student.email = row[3]
-                stats.local_tables.students.append(student)
+            case "students":
+                from Classes.Student_accounting.Student import Student
+                for row in data:
+                    student = Student(row[0], row[1], stats.current_parent_id)
+                    if len(row) == 4:
+                        student.email = row[3]
+                    stats.local_tables.students.append(student)
 
-        print(stats.local_tables.user_subjects)
-        print(stats.local_tables.subjects)
-        print(stats.local_tables.subject_departments)
-        print(stats.local_tables.departments)
-        print(stats.local_tables.specializations)
-        print(stats.local_tables.years)
-        print(stats.local_tables.groups)
-        print(stats.local_tables.students)
+        stats.local_tables.print_all()
 
     def to_child(self, cell):
         row = cell["row"]
@@ -205,54 +189,47 @@ class EnterData(customtkinter.CTkScrollableFrame):
         if row == 0:
             return
 
-        from Classes import User_accounting, Student_accounting
-        import Classes.Student_accounting.Department
-        import Classes.Student_accounting.Specialization
-        import Classes.Student_accounting.Year
-        import Classes.Student_accounting.Group
-        import Classes.Student_accounting.Student
-
+        import Classes
 
         print(stats.table_data[row][0])
         id = stats.table_data[row][0]
 
-        if stats.current_table == "student_groups":
-            if stats.table_saved == stats.edits_made or stats.table_saved:
-                self.refresh_save_stats()
-                self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
-                self.populate_students_table()
-                return
-            else:
-                self.table_not_saved_popup()
-                return
-        if stats.current_table == "years":
-            if stats.table_saved == stats.edits_made or stats.table_saved:
-                self.refresh_save_stats()
-                self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
-            else:
-                self.table_not_saved_popup()
-                return
-        if stats.current_table == "specializations":
-            if stats.table_saved == stats.edits_made or stats.table_saved:
-                self.refresh_save_stats()
-                self.sql_query = Classes.Student_accounting.Specialization.Specialization.to_child(id)
-            else:
-                self.table_not_saved_popup()
-                return
-        if stats.current_table == "departments":
-            if stats.table_saved == stats.edits_made or stats.table_saved:
-                self.refresh_save_stats()
-                self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
-            else:
-                self.table_not_saved_popup()
-                return
-        if stats.current_table == "subjects":
-            if stats.table_saved == stats.edits_made or stats.table_saved:
-                self.refresh_save_stats()
-                self.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
-            else:
-                self.table_not_saved_popup()
-                return
+        match stats.current_table:
+            case "student_groups":
+                if stats.table_saved == stats.edits_made or stats.table_saved:
+                    self.refresh_save_stats()
+                    self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
+                    self.populate_students_table()
+                else:
+                    self.table_not_saved_popup()
+
+            case "years":
+                if stats.table_saved == stats.edits_made or stats.table_saved:
+                    self.refresh_save_stats()
+                    self.sql_query = Classes.Student_accounting.Year.Year.to_child(id)
+                else:
+                    self.table_not_saved_popup()
+
+            case "specializations":
+                if stats.table_saved == stats.edits_made or stats.table_saved:
+                    self.refresh_save_stats()
+                    self.sql_query = Classes.Student_accounting.Specialization.Specialization.to_child(id)
+                else:
+                    self.table_not_saved_popup()
+
+            case "departments":
+                if stats.table_saved == stats.edits_made or stats.table_saved:
+                    self.refresh_save_stats()
+                    self.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
+                else:
+                    self.table_not_saved_popup()
+
+            case "subjects":
+                if stats.table_saved == stats.edits_made or stats.table_saved:
+                    self.refresh_save_stats()
+                    self.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
+                else:
+                    self.table_not_saved_popup()
 
         print(stats.current_table)
 
@@ -260,15 +237,16 @@ class EnterData(customtkinter.CTkScrollableFrame):
         print("Succesful switch to child")
 
     def table_on_click(self, cell):
-        if stats.tool_mode == "Edit":
-            self.create_popup(cell)
-        if stats.tool_mode == "Open":
-            stats.current_parent_id = stats.table_data[cell["row"]][0]
-            print(f"Current parent id: {stats.current_parent_id}")
-            self.to_child(cell)
-        if stats.tool_mode == "Delete":
-            id_to_delete = stats.table_data[cell["row"]][0]
-            self.delete_item(id_to_delete)
+        match stats.tool_mode:
+            case 'Edit':
+                self.create_popup(cell)
+            case 'Open':
+                stats.current_parent_id = stats.table_data[cell["row"]][0]
+                print(f"Current parent id: {stats.current_parent_id}")
+                self.to_child(cell)
+            case 'Delete':
+                id_to_delete = stats.table_data[cell["row"]][0]
+                self.delete_item(id_to_delete)
 
     def delete_item(self, id_to_delete):
         for row in stats.table_data:
@@ -277,6 +255,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                 print(f"Item with id={id_to_delete} was successfully deleted")
                 self.table.update_values(stats.table_data)
                 self.table.delete_row(self.table.rows-1)
+                stats.edits_made = True
 
     @staticmethod
     def switch_to_edit():
