@@ -1,11 +1,9 @@
 import customtkinter
 from CTkTable import CTkTable
-import mysql.connector
 
-import Classes.User_accounting.Subject
 from Utils.dbconnect import DBConnect
 from Utils import stats as stats
-from Table_population import Table_population
+from Views.Main_content.Table_operations.Table_population import Table_population
 
 
 class EnterData(customtkinter.CTkScrollableFrame):
@@ -31,7 +29,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         stats.current_table = "subjects"
 
     def table_on_click(self, cell):
-        from Views.Table_operations import TableOperations
+        from Views.Main_content.Table_operations.Table_operations import TableOperations
         match stats.tool_mode:
             case 'Edit':
                 TableOperations.create_popup(self, cell)
@@ -57,23 +55,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
         stats.tool_mode = "Delete"
         print("Switched to delete mode")
 
-    def table_not_saved_popup(self):
-        popup = customtkinter.CTkToplevel()
-        popup.title("Edit Cell")
-        popup.grab_set()
-
-        label = customtkinter.CTkLabel(popup, text="Таблиця не збережена. Будь ласка збережіть зміни")
-        label.pack(padx=10, pady=10)
-
-        def ignore(popup):
-            self.refresh_save_stats()
-            popup.destroy()
-
-        ignore_button = customtkinter.CTkButton(popup, text="Ігнорувати", command=lambda: ignore(popup))
-        ignore_button.pack()
-
-        popup.protocol("WM_DELETE_WINDOW", popup.destroy)
-
-    def refresh_save_stats(self):
+    @staticmethod
+    def refresh_save_stats():
         stats.table_saved = False
         stats.edits_made = False

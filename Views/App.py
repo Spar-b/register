@@ -1,12 +1,9 @@
-import tkinter
-import tkinter.messagebox
 import customtkinter
-import CTkTable
-from Views.enterdata import EnterData
+from Views.Main_content.enterdata import EnterData
 from Views.Authorization.Login import Login
 from Views.Authorization.Register import Register
-from Views.Table_operations import TableOperations
-from Views.Save_table import SaveTable
+from Views.Main_content.Table_operations.Table_operations import TableOperations
+from Views.Main_content.Table_operations.Save_table import SaveTable
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"

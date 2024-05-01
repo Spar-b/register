@@ -1,6 +1,5 @@
 from Utils import stats
 import CTkTable
-from Views.Table_operations import TableOperations
 
 
 class Table_population:
