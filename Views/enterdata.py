@@ -201,6 +201,7 @@ class EnterData(customtkinter.CTkScrollableFrame):
                     self.refresh_save_stats()
                     self.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
                     self.populate_students_table()
+                    return
                 else:
                     self.table_not_saved_popup()
 
