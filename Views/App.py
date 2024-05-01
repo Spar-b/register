@@ -5,6 +5,8 @@ import CTkTable
 from Views.enterdata import EnterData
 from Views.Authorization.Login import Login
 from Views.Authorization.Register import Register
+from Views.Table_operations import TableOperations
+from Views.Save_table import SaveTable
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -53,9 +55,10 @@ class App(customtkinter.CTk):
         self.navbar_frame.grid_rowconfigure((1, 2, 3), weight=1)
         self.navbar_frame.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), weight=1)
 
-        self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=self.content_frame.add_empty_row)
+        self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=lambda: TableOperations.add_empty_row(self.content_frame))
         self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
-        self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.save)
+
+        self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command= lambda: SaveTable.save(self.content_frame))
         self.navbar_save_button.grid(row=2, column=1, sticky="nsew")
         self.navbar_edit_button = customtkinter.CTkButton(self.navbar_frame, text="Редагування",
                                                           command=EnterData.switch_to_edit)
@@ -98,7 +101,7 @@ class App(customtkinter.CTk):
         self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
         self.navbar_frame.grid(row=0, column=1, sticky="nsew", rowspan=1)
         self.content_frame = EnterData(self, fg_color=("#FFFFFF", "#000000"))
-        self.navbar_add_row_button.configure(command=self.content_frame.add_empty_row)
+        self.navbar_add_row_button.configure(command=lambda: TableOperations.add_empty_row(self.content_frame))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
         self.navbar_frame.grid(row=0, column=1, rowspan=1, sticky="new")
 
