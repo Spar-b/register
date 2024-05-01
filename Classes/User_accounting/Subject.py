@@ -11,7 +11,7 @@ class Subject:
     @staticmethod
     def get_all_for_user(id):
         sql_query = f'''
-                    SELECT subjects.id, subjects.subject_name
+                    SELECT subjects.id AS '№', subjects.subject_name AS 'Назва предмету'
                     FROM account_subject
                     JOIN subjects ON account_subject.subject_id = subjects.id
                     WHERE account_subject.account_id = {id};
@@ -25,16 +25,12 @@ class Subject:
                 f"INSERT INTO subjects (id, subject_name) VALUES (%s, %s) ON DUPLICATE KEY UPDATE subject_name = VALUES(subject_name);"
                 , (subject_id, subject_name))
 
-            # Delete existing subjects for the user
         cursor.execute("DELETE FROM account_subject WHERE account_id = %s", (stats.current_user.id,))
 
         db.db.commit()
 
-        #cursor.execute("SELECT id FROM subjects;")
-        #print(cursor.fetchall())
-
         print(f"Current user id: {stats.current_user.id}")
-        # Insert new subjects for the user
+
         for subject_id, _ in subject_data:
             print(f"Subject id: {subject_id}")
             cursor.execute("INSERT INTO account_subject (account_id, subject_id) VALUES (%s, %s);",
@@ -46,7 +42,7 @@ class Subject:
     @staticmethod
     def to_child(id):
         sql_query = f'''
-            SELECT d.*
+            SELECT d.id AS '№', d.name AS 'Назва відділення'
             FROM departments d
             JOIN subject_department sd ON d.id = sd.department_id
             JOIN subjects s ON sd.subject_id = s.id

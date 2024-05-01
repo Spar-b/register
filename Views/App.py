@@ -14,7 +14,6 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
-        # configure window
         self.title("Домашня сторінка")
         self.geometry(f"{1920}x{1080}")
 
@@ -38,8 +37,7 @@ class App(customtkinter.CTk):
         self.authorization_button.grid(row=1, column=0, padx=20, pady=10)
         self.enter_data_button = customtkinter.CTkButton(self.sidebar_frame, command=self.to_enter_data, text='Ввід даних')
         self.enter_data_button.grid(row=2, column=0, padx=20, pady=10)
-        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame)
-        self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
+
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Тема:", anchor="w")
         self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionmenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Системна", "Світла", "Темна"],
@@ -66,6 +64,9 @@ class App(customtkinter.CTk):
         self.navbar_open_button = customtkinter.CTkButton(self.navbar_frame, text="Перехід",
                                                           command=EnterData.switch_to_open)
         self.navbar_open_button.grid(row=2, column=2, sticky="nsew")
+
+        self.navbar_delete_button = customtkinter.CTkButton(self.navbar_frame, text="Видалення", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_delete)
+        self.navbar_delete_button.grid(row=1, column=3, sticky="nsew")
 
         self.to_authorization()
 

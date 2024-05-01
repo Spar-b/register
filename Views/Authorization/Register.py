@@ -7,6 +7,7 @@ class Register(ctk.CTkFrame):
     def __init__(self, app, master=None, **kwargs):
         super().__init__(master, **kwargs)
 
+        self.app = app
         self.grid_rowconfigure(
             (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25), weight=1)
         self.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25), weight=1)
@@ -32,7 +33,7 @@ class Register(ctk.CTkFrame):
         self.register_button.grid(row=14, column=13, sticky="nsew")
 
         self.change_form_label = ctk.CTkLabel(self, text="Уже маєте акаунт? Увійдіть в нього!", font=('Calibri', 16))
-        self.change_form_label.bind("<Button-1>", lambda e: app.to_authorization())
+        self.change_form_label.bind("<Button-1>", lambda e: self.app.to_authorization())
         self.change_form_label.grid(row=16, column=13, sticky="nsew")
 
     def register_button_action(self):
@@ -62,3 +63,4 @@ class Register(ctk.CTkFrame):
                 '''
         db.execute_query(sql_query)
         print("Succesful")
+        self.app.to_authorization()
