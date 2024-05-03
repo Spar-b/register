@@ -42,7 +42,6 @@ class TableOperations:
         entry.bind("<Return>", save_and_close)
         popup.protocol("WM_DELETE_WINDOW", popup.destroy)
 
-
     @staticmethod
     def to_child(master, cell):
         row = cell["row"]

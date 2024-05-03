@@ -27,6 +27,8 @@ class Table_population:
         master.table = CTkTable.CTkTable(master, column=len(column_names), header_color=("#3a7ebf", "#1f538d"),
                               values=stats.table_data, row=len(stats.table_data), command=master.table_on_click)
 
+        master.table.edit_column(1, width=380)
+
         master.table.pack(fill='both', expand=True)
 
         print(f"Table data: {stats.table_data}")
