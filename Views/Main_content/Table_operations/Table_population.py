@@ -13,10 +13,10 @@ class Table_population:
                 '''
         master.cursor.execute(sql_query)
         student_data = master.cursor.fetchall()
-        student_list = [(idx + 1, name[0], *(None,) * 25) for idx, name in enumerate(student_data)]
+        student_list = [[idx + 1, name[0]] + [None] * stats.default_register_column_count for idx, name in enumerate(student_data)]
 
         # Add headings
-        column_names = ['№', 'ПІБ студента'] + [' '] * 25
+        column_names = ['№', 'ПІБ студента'] + [' '] * stats.default_register_column_count
 
         # Combine headings and student_list
         stats.table_data = [column_names] + student_list
