@@ -9,17 +9,51 @@ class Table_population:
     @staticmethod
     def populate_students_table(master):
         sql_query = f'''
-                        SELECT name FROM students WHERE group_id = {stats.current_parent_id};
+                        SELECT id, name FROM students WHERE group_id = {stats.current_parent_id};
                 '''
         master.cursor.execute(sql_query)
         student_data = master.cursor.fetchall()
-        student_list = [[idx + 1, name[0]] + [None] * stats.default_register_column_count for idx, name in enumerate(student_data)]
+        student_list = [[idx + 1, name[1]] for idx, name in enumerate(student_data)]
+
+        grade_list=[]
+        print(student_data)
+        for row in student_data:
+            sql_query = f'''
+                        SELECT grade_value, grade_num FROM grades WHERE student_id = {row[0]}
+            '''
+            master.cursor.execute(sql_query)
+            grade_data = master.cursor.fetchall()
+            print(grade_data)
+            grade_row = []
+            for i in range(stats.default_register_column_count):
+                grade_found = False
+                for grade_value, grade_num in grade_data:
+                    if grade_num == i:
+                        if i < len(grade_row):
+                            print(grade_row[i])
+                        else:
+                            grade_row.append(grade_value)
+                            grade_found = True
+                if not grade_found:
+                    grade_row.append(None)
+
+            grade_list.append(grade_row)
+
+            print(grade_list)
 
         # Add headings
         column_names = ['№', 'ПІБ студента'] + [' '] * stats.default_register_column_count
 
-        # Combine headings and student_list
-        stats.table_data = [column_names] + student_list
+        # Combine student_list and grade_list
+        combined_data = []
+        for student, grades in zip(student_list, grade_list):
+            combined_data.append(student + grades)
+
+        # Add headings
+        combined_data.insert(0, column_names)
+
+        # Assign to stats.table_data
+        stats.table_data = combined_data
 
         master.table.destroy()
 
