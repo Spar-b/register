@@ -70,9 +70,27 @@ class SaveTable:
                         student.email = row[3]
                     stats.local_tables.students.append(student)
 
+                from Classes.Student_accounting.Grade import Grade
+                grade_id = 0
+                grades_list = []
+                for row in data:
+                    student_id = row[0]
+                    grade_num = 0
+                    for cell in row:
+                        if cell == row[0] or cell == row[1]:
+                            continue
+                        if cell is not None:
+                            grade_value = cell
+                            grade = [grade_id, student_id, grade_num, grade_value]
+                            grades_list.append(grade)
+
+                        grade_id += 1
+                        grade_num += 1
+
                 student_data = [row[0:2] for row in data]
 
                 Student.save_all(student_data, db)
+                Grade.save_all(grades_list, db)
                 stats.table_saved = True
 
         stats.local_tables.print_all()
