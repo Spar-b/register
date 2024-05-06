@@ -1,3 +1,6 @@
+from Utils import stats
+
+
 class Student:
     def __init__(self, id, name, group_id, email="None"):
         self.id = id
@@ -14,3 +17,14 @@ class Student:
         from Utils import stats
         stats.current_table = "grades"
         return sql_query
+
+    @staticmethod
+    def save_all(data, db):
+        cursor = db.db.cursor()
+        for id, name in data:
+            cursor.execute(
+                f"INSERT INTO students (id, group_id, name) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE name = VALUES(name);"
+                , (id, stats.current_parent_id, name))
+
+        print("Successfully saved Students")
+        db.db.commit()

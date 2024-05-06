@@ -1,5 +1,5 @@
 import customtkinter
-from Views.Main_content.enterdata import EnterData
+from Views.Main_content.EnterDataView import EnterData
 from Views.Authorization.Login import Login
 from Views.Authorization.Register import Register
 from Views.Main_content.Table_operations.Table_operations import TableOperations

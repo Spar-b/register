@@ -70,4 +70,9 @@ class SaveTable:
                         student.email = row[3]
                     stats.local_tables.students.append(student)
 
+                student_data = [row[0:2] for row in data]
+
+                Student.save_all(student_data, db)
+                stats.table_saved = True
+
         stats.local_tables.print_all()

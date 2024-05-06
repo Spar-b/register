@@ -64,7 +64,7 @@ class TableOperations:
             TableOperations.table_not_saved_popup(master)
             return
 
-        from Views.Main_content.enterdata import EnterData
+        from Views.Main_content.EnterDataView import EnterData
         EnterData.refresh_save_stats()
 
         match stats.current_table:
@@ -113,7 +113,7 @@ class TableOperations:
         label.pack(padx=10, pady=10)
 
         def ignore():
-            from Views.Main_content.enterdata import EnterData
+            from Views.Main_content.EnterDataView import EnterData
             EnterData.refresh_save_stats()
             popup.destroy()
 
