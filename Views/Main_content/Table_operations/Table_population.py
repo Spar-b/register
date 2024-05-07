@@ -11,10 +11,16 @@ class Table_population:
         master.app.navbar_absent_button.configure(state='normal')
 
         sql_query = f'''
-                    SELECT heading_value, heading_num FROM register_headings WHERE group_id = {stats.current_parent_id};
+                    SELECT date_value, date_num FROM register_dates WHERE group_id = {stats.current_parent_id} AND subject_id = {stats.current_subject_id};
         '''
         master.cursor.execute(sql_query)
-        register_data = master.cursor.fetchall()
+        dates_data = master.cursor.fetchall()
+
+        sql_query = f'''
+                    SELECT heading_value, heading_num FROM register_headings WHERE group_id = {stats.current_parent_id} AND subject_id = {stats.current_subject_id};
+        '''
+        master.cursor.execute(sql_query)
+        headings_data = master.cursor.fetchall()
 
         sql_query = f'''
                         SELECT id, name FROM students WHERE group_id = {stats.current_parent_id};
@@ -56,10 +62,15 @@ class Table_population:
         # Initialize an empty list with the default length
         column_names.extend([None] * (stats.default_register_column_count - generic_column_names_len))
 
-        # Add register_data to column_names
-        for heading_value, heading_num in register_data:
+        # Add headings_data to column_names
+        for heading_value, heading_num in headings_data:
             if heading_num < len(column_names):
                 column_names[heading_num + generic_column_names_len] = heading_value
+
+        column_dates = [None] * stats.default_register_column_count
+        for date_value, date_num in dates_data:
+            if date_num < len(column_dates):
+                column_dates[date_num + generic_column_names_len] = date_value
 
         # Combine student_list and grade_list
         combined_data = []
@@ -68,15 +79,19 @@ class Table_population:
 
         # Add headings
         combined_data.insert(0, column_names)
+        combined_data.insert(1, column_dates)
 
         # Assign to stats.table_data
         stats.table_data = combined_data
 
         master.table.destroy()
 
-
         master.table = CTkTable.CTkTable(master, column=len(column_names), header_color=("#3a7ebf", "#1f538d"),
                               values=stats.table_data, row=len(stats.table_data), command=master.table_on_click)
+
+        master.table.edit_row(0, text_color="#FFFFFF")
+        master.table.edit_row(1, fg_color=("#3a7ebf", "#1f538d"), text_color="#FFFFFF")
+
 
         master.table.edit_column(1, width=380)
 

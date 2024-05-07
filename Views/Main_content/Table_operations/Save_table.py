@@ -65,10 +65,17 @@ class SaveTable:
             case "students":
                 from Classes.Student_accounting.Student import Student
                 from Classes.Misc.RegisterHeading import RegisterHeading
+                from Classes.Misc.RegisterDate import RegisterDate
 
                 headings_data = stats.table_data[0][2:]
                 print(f"Headings data: {headings_data}")
                 RegisterHeading.save_all(headings_data, db)
+
+                dates_data = stats.table_data[1][2:]
+                print(f"Dates data: {headings_data}")
+                RegisterDate.save_all(dates_data, db)
+
+                data = stats.table_data[2:]
 
                 for row in data:
                     student = Student(row[0], row[1], stats.current_parent_id)
