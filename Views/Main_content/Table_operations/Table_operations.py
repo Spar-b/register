@@ -83,6 +83,7 @@ class TableOperations:
                 master.sql_query = Classes.Student_accounting.Department.Department.to_child(id)
 
             case "subjects":
+                stats.current_subject_id = stats.table_data[row][0]
                 master.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
 
         print(stats.current_table)

@@ -14,7 +14,7 @@ class RegisterHeading:
                 continue
 
             sql_query = f'''
-                        INSERT INTO register_headings(group_id, heading_value, heading_num) VALUES({stats.current_parent_id}, '{headings_data[i]}', {i});
+                        INSERT INTO register_headings(group_id, subject_id, heading_value, heading_num) VALUES({stats.current_parent_id}, {stats.current_subject_id}, '{headings_data[i]}', {i});
             '''
             cursor.execute(sql_query)
         db.db.commit()
