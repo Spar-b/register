@@ -64,6 +64,12 @@ class SaveTable:
 
             case "students":
                 from Classes.Student_accounting.Student import Student
+                from Classes.Misc.RegisterHeading import RegisterHeading
+
+                headings_data = stats.table_data[0][2:]
+                print(f"Headings data: {headings_data}")
+                RegisterHeading.save_all(headings_data, db)
+
                 for row in data:
                     student = Student(row[0], row[1], stats.current_parent_id)
                     if len(row) == 4:

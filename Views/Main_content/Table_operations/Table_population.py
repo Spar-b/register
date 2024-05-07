@@ -9,6 +9,13 @@ class Table_population:
     @staticmethod
     def populate_students_table(master):
         master.app.navbar_absent_button.configure(state='normal')
+
+        sql_query = f'''
+                    SELECT heading_value, heading_num FROM register_headings WHERE group_id = {stats.current_parent_id};
+        '''
+        master.cursor.execute(sql_query)
+        register_data = master.cursor.fetchall()
+
         sql_query = f'''
                         SELECT id, name FROM students WHERE group_id = {stats.current_parent_id};
                 '''
@@ -43,7 +50,16 @@ class Table_population:
             print(grade_list)
 
         # Add headings
-        column_names = ['№', 'ПІБ студента'] + [' '] * stats.default_register_column_count
+        column_names = ['№', 'ПІБ студента']
+        generic_column_names_len = len(column_names)
+
+        # Initialize an empty list with the default length
+        column_names.extend([None] * (stats.default_register_column_count - generic_column_names_len))
+
+        # Add register_data to column_names
+        for heading_value, heading_num in register_data:
+            if heading_num < len(column_names):
+                column_names[heading_num + generic_column_names_len] = heading_value
 
         # Combine student_list and grade_list
         combined_data = []

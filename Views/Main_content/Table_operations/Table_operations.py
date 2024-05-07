@@ -22,7 +22,7 @@ class TableOperations:
         row = cell["row"]
         column = cell["column"]
 
-        if row == 0:
+        if row == 0 and stats.current_table != "students":
             return
 
         popup = customtkinter.CTkToplevel()
@@ -106,7 +106,7 @@ class TableOperations:
     @staticmethod
     def table_not_saved_popup(master):
         popup = customtkinter.CTkToplevel()
-        popup.title("Edit Cell")
+        popup.title("Таблиця не збережена")
         popup.grab_set()
 
         label = customtkinter.CTkLabel(popup, text="Таблиця не збережена. Будь ласка збережіть зміни")
