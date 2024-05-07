@@ -121,3 +121,10 @@ class TableOperations:
         ignore_button.pack()
 
         popup.protocol("WM_DELETE_WINDOW", popup.destroy)
+
+    @staticmethod
+    def absent_tool(master, cell):
+        row = cell["row"]
+        column = cell["column"]
+        stats.table_data[row][column] = "нб"
+        master.table.update_values(stats.table_data)

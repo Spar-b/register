@@ -40,6 +40,8 @@ class EnterData(customtkinter.CTkScrollableFrame):
             case 'Delete':
                 id_to_delete = stats.table_data[cell["row"]][0]
                 TableOperations.delete_item(self, id_to_delete)
+            case 'Absent':
+                TableOperations.absent_tool(self, cell)
 
     @staticmethod
     def switch_to_edit():
@@ -56,6 +58,11 @@ class EnterData(customtkinter.CTkScrollableFrame):
         print("Switched to delete mode")
 
     @staticmethod
+    def switch_to_absent():
+        stats.tool_mode = "Absent"
+        print("Switched to absent control mode")
+    @staticmethod
     def refresh_save_stats():
         stats.table_saved = False
         stats.edits_made = False
+
