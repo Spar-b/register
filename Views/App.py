@@ -68,7 +68,7 @@ class App(customtkinter.CTk):
         self.navbar_delete_button = customtkinter.CTkButton(self.navbar_frame, text="Видалення", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_delete)
         self.navbar_delete_button.grid(row=1, column=3, sticky="nsew")
 
-        self.navbar_absent_button = customtkinter.CTkButton(self.navbar_frame, text="нб", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_absent)
+        self.navbar_absent_button = customtkinter.CTkButton(self.navbar_frame, text="нб", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_absent, state='disabled')
         self.navbar_absent_button.grid(row=2, column=3, sticky="nsew")
 
         self.to_authorization()

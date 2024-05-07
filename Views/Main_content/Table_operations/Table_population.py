@@ -8,6 +8,7 @@ class Table_population:
 
     @staticmethod
     def populate_students_table(master):
+        master.app.navbar_absent_button.configure(state='normal')
         sql_query = f'''
                         SELECT id, name FROM students WHERE group_id = {stats.current_parent_id};
                 '''
@@ -70,6 +71,10 @@ class Table_population:
 
     @staticmethod
     def populate_table(master, query):
+        try:
+            master.app.navbar_absent_button.configure(state='disabled')
+        except AttributeError:
+            print("Can't change absent button state")
         master.cursor.execute(query)
 
         data = master.cursor.fetchall()
