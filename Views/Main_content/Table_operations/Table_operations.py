@@ -99,6 +99,12 @@ class TableOperations:
         for i in range(len(stats.table_data)):
             try:
                 if stats.table_data[i][0] == id_to_delete:
+                    sql_query = ""
+                    if stats.current_table == 'students':
+                        sql_query = f'''DELETE FROM grades WHERE student_id = {id_to_delete};
+                                        '''
+                        master.cursor.execute(sql_query)
+                        master.db.db.commit()
                     sql_query = f'''
                     DELETE FROM {stats.current_table} WHERE id = {id_to_delete};
                     '''
