@@ -71,6 +71,18 @@ class App(customtkinter.CTk):
         self.navbar_absent_button = customtkinter.CTkButton(self.navbar_frame, text="нб", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_absent, state='disabled')
         self.navbar_absent_button.grid(row=2, column=3, sticky="nsew")
 
+        self.navbar_previous_page_button = customtkinter.CTkButton(self.navbar_frame, text="Минула сторінка",
+                                                               font=customtkinter.CTkFont("Arial", 16),
+                                                               command= lambda: self.content_frame.previous_page(self.content_frame),
+                                                               state='disabled')
+        self.navbar_previous_page_button.grid(row=1, column=4, sticky="nsew")
+
+        self.navbar_next_page_button = customtkinter.CTkButton(self.navbar_frame, text="Наступна сторінка",
+                                                               font=customtkinter.CTkFont("Arial", 16),
+                                                               command= lambda: self.content_frame.next_page(self.content_frame),
+                                                               state='disabled')
+        self.navbar_next_page_button.grid(row=2, column=4, sticky="nsew")
+
         self.to_authorization()
 
     @staticmethod

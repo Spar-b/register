@@ -8,8 +8,7 @@ class Table_population:
 
     @staticmethod
     def populate_students_table(master):
-        master.app.navbar_absent_button.configure(state='normal')
-
+        master.unlock_buttons()
         sql_query = f'''
                     SELECT date_value, date_num FROM register_dates WHERE group_id = {stats.current_parent_id} AND subject_id = {stats.current_subject_id};
         '''
@@ -38,18 +37,12 @@ class Table_population:
             master.cursor.execute(sql_query)
             grade_data = master.cursor.fetchall()
             print(grade_data)
-            grade_row = []
-            for i in range(stats.default_register_column_count):
-                grade_found = False
-                for grade_value, grade_num in grade_data:
-                    if grade_num == i:
-                        if i < len(grade_row):
-                            print(grade_row[i])
-                        else:
-                            grade_row.append(grade_value)
-                            grade_found = True
-                if not grade_found:
-                    grade_row.append(None)
+            grade_row = [None] * stats.default_register_column_count
+
+            # Add grade_data to grade_row
+            for grade_value, grade_num in grade_data:
+                if grade_num - stats.current_register_page * stats.default_register_column_count < len(grade_row) and grade_num >= stats.current_register_page * stats.default_register_column_count:
+                    grade_row[grade_num] = grade_value
 
             grade_list.append(grade_row)
 
@@ -64,12 +57,12 @@ class Table_population:
 
         # Add headings_data to column_names
         for heading_value, heading_num in headings_data:
-            if heading_num + stats.current_register_page * stats.default_register_column_count < len(column_names) and heading_num >= stats.current_register_page * stats.default_register_column_count:
-                column_names[heading_num + generic_column_names_len] = heading_value
+            if heading_num - stats.current_register_page * stats.default_register_column_count < len(column_names) and heading_num >= stats.current_register_page * stats.default_register_column_count:
+                column_names[heading_num + generic_column_names_len - stats.current_register_page * stats.default_register_column_count] = heading_value
 
         column_dates = [None] * stats.default_register_column_count
         for date_value, date_num in dates_data:
-            if date_num + stats.current_register_page * stats.default_register_column_count < len(column_dates) and date_num >= stats.current_register_page * stats.default_register_column_count:
+            if date_num - stats.current_register_page * stats.default_register_column_count < len(column_dates) and date_num >= stats.current_register_page * stats.default_register_column_count:
                 column_dates[date_num + generic_column_names_len] = date_value
 
         # Combine student_list and grade_list

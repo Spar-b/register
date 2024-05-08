@@ -68,3 +68,24 @@ class EnterData(customtkinter.CTkScrollableFrame):
         stats.table_saved = False
         stats.edits_made = False
 
+    @staticmethod
+    def next_page(master):
+        stats.current_register_page += 1
+        print(f"Switched to the next page: {stats.current_register_page}")
+
+        Table_population.populate_students_table(master)
+
+    @staticmethod
+    def previous_page(master):
+        if(stats.current_register_page > 0):
+            stats.current_register_page -= 1
+            print(f"Switched to the previous page: {stats.current_register_page}")
+        else:
+            print("The page was not switched, you are already on the first one")
+
+        Table_population.populate_students_table(master)
+
+    def unlock_buttons(self):
+        self.app.navbar_absent_button.configure(state='normal')
+        self.app.navbar_next_page_button.configure(state='normal')
+        self.app.navbar_previous_page_button.configure(state='normal')
