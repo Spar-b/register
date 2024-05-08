@@ -96,10 +96,15 @@ class TableOperations:
 
     @staticmethod
     def delete_item(master, id_to_delete):
-        for row in stats.table_data:
+        for i in range(len(stats.table_data)):
             try:
-                if row[0] == id_to_delete:
-                    stats.table_data.pop(int(id_to_delete))
+                if stats.table_data[i][0] == id_to_delete:
+                    sql_query = f'''
+                    DELETE FROM {stats.current_table} WHERE id = {id_to_delete};
+                    '''
+                    master.cursor.execute(sql_query)
+                    master.db.db.commit()
+                    stats.table_data.pop(i)
                     print(f"Item with id={id_to_delete} was successfully deleted")
                     master.table.update_values(stats.table_data)
                     master.table.delete_row(master.table.rows-1)

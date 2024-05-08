@@ -12,5 +12,5 @@ tool_mode = "Edit"
 table_saved = False
 edits_made = False
 local_tables = LocalTables()
-default_register_column_count = 17
-
+default_register_column_count = 20
+current_register_page = 0

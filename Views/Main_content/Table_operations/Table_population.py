@@ -64,12 +64,12 @@ class Table_population:
 
         # Add headings_data to column_names
         for heading_value, heading_num in headings_data:
-            if heading_num < len(column_names):
+            if heading_num + stats.current_register_page * stats.default_register_column_count < len(column_names) and heading_num >= stats.current_register_page * stats.default_register_column_count:
                 column_names[heading_num + generic_column_names_len] = heading_value
 
         column_dates = [None] * stats.default_register_column_count
         for date_value, date_num in dates_data:
-            if date_num < len(column_dates):
+            if date_num + stats.current_register_page * stats.default_register_column_count < len(column_dates) and date_num >= stats.current_register_page * stats.default_register_column_count:
                 column_dates[date_num + generic_column_names_len] = date_value
 
         # Combine student_list and grade_list
