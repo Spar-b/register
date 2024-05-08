@@ -15,7 +15,7 @@ class RegisterDate:
                 continue
 
             sql_query = f'''
-                        INSERT INTO register_dates(group_id, subject_id, date_value, date_num) VALUES({stats.current_parent_id}, {stats.current_subject_id}, '{data[i]}', {i});
+                        INSERT INTO register_dates(group_id, subject_id, date_value, date_num) VALUES({stats.current_parent_id}, {stats.current_subject_id}, '{data[i]}', {i + stats.current_register_page * stats.default_register_column_count});
             '''
             cursor.execute(sql_query)
         db.db.commit()

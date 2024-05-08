@@ -63,7 +63,7 @@ class Table_population:
         column_dates = [None] * stats.default_register_column_count
         for date_value, date_num in dates_data:
             if date_num - stats.current_register_page * stats.default_register_column_count < len(column_dates) and date_num >= stats.current_register_page * stats.default_register_column_count:
-                column_dates[date_num + generic_column_names_len] = date_value
+                column_dates[date_num + generic_column_names_len - stats.current_register_page * stats.default_register_column_count] = date_value
 
         # Combine student_list and grade_list
         combined_data = []
