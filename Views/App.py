@@ -88,12 +88,13 @@ class App(customtkinter.CTk):
     @staticmethod
     def change_appearance_mode_event(new_appearance_mode: str):
 
-        if new_appearance_mode == "Світла":
-            customtkinter.set_appearance_mode("Light")
-        if new_appearance_mode == "Темна":
-            customtkinter.set_appearance_mode("Dark")
-        if new_appearance_mode == "Системна":
-            customtkinter.set_appearance_mode("System")
+        match new_appearance_mode:
+            case 'Світла':
+                customtkinter.set_appearance_mode("Light")
+            case 'Темна':
+                customtkinter.set_appearance_mode("Dark")
+            case 'Системна':
+                customtkinter.set_appearance_mode("System")
 
 
     def change_scaling_event(self, new_scaling: str):
