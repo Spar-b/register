@@ -28,14 +28,16 @@ class Login(ctk.CTkFrame):
                                           corner_radius=30, show="•", height=45)
         self.password_text_box.grid(row=8, column=13, sticky="ew", columnspan=3)
 
-        self.view_image = PIL.Image.open(".././Images/Show-Hide-Password/view.png")
-        self.hide_image = PIL.Image.open(".././Images/Show-Hide-Password/hide.png")
+        self.view_image_dark = PIL.Image.open(".././Images/Show-Hide-Password/view_dark.png")
+        self.view_image = PIL.Image.open(".././Images/Show-Hide-Password/view_light.png")
+        self.hide_image_dark = PIL.Image.open(".././Images/Show-Hide-Password/hide_dark.png")
+        self.hide_image = PIL.Image.open(".././Images/Show-Hide-Password/hide_light.png")
 
         self.show_password_image = customtkinter.CTkImage(light_image=self.view_image,
-                                            dark_image=self.view_image,
+                                            dark_image=self.view_image_dark,
                                             size=(45, 45))
 
-        self.show_password_button = ctk.CTkButton(self, image=self.show_password_image, text="", fg_color="transparent", command=self.switch_password_char)
+        self.show_password_button = ctk.CTkButton(self, image=self.show_password_image, text="", fg_color="transparent", command=self.switch_password_char, hover_color=("#D9D9D9", "#137137137"), corner_radius=35)
         self.show_password_button.grid(row=8, column=16)
 
         self.issue_text = ctk.CTkLabel(self, text="", text_color="#FF0000")
@@ -85,9 +87,9 @@ class Login(ctk.CTkFrame):
 
     def switch_password_char(self):
         if self.password_char_active:
-            self.show_password_image.configure(light_image=self.hide_image, dark_image=self.hide_image)
+            self.show_password_image.configure(light_image=self.hide_image, dark_image=self.hide_image_dark)
             self.password_text_box.configure(show="")
         else:
-            self.show_password_image.configure(light_image=self.view_image, dark_image=self.view_image)
+            self.show_password_image.configure(light_image=self.view_image, dark_image=self.view_image_dark)
             self.password_text_box.configure(show="•")
         self.password_char_active = not self.password_char_active

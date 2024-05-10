@@ -38,7 +38,7 @@ class TableOperations:
             master.table.update_values(stats.table_data)
             if stats.current_table == 'students':
                 master.table.edit_row(0, text_color="#FFFFFF")
-                master.table.edit_row(1, fg_color=("#3a7ebf", "#1f538d"), text_color="#FFFFFF")
+                #master.table.edit_row(1, fg_color=("#3a7ebf", "#1f538d"), text_color="#FFFFFF")
             stats.edits_made = True
             popup.destroy()
 
