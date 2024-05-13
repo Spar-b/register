@@ -14,3 +14,4 @@ edits_made = False
 local_tables = LocalTables()
 default_register_column_count = 20
 current_register_page = 0
+heading_rows_count = 1

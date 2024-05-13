@@ -9,6 +9,7 @@ class TableOperations:
     @staticmethod
     def add_empty_row(master):
         empty_row = [""] * master.table.columns
+        empty_row[0] = str(len(stats.table_data) - stats.heading_rows_count+1)
         stats.table_data.append(empty_row)
         master.table.add_row(empty_row)
 
@@ -74,6 +75,7 @@ class TableOperations:
             case "student_groups":
                 master.sql_query = Classes.Student_accounting.Group.Group.to_child(id)
                 master.table_population.populate_students_table(master)
+                stats.heading_rows_count = 2
                 return
 
             case "years":
@@ -90,6 +92,7 @@ class TableOperations:
                 master.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
 
         print(stats.current_table)
+        stats.heading_rows_count = 1
 
         master.table_population.populate_table(master, master.sql_query)
         print("Succesful switch to child")
