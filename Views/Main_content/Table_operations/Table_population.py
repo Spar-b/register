@@ -42,7 +42,7 @@ class Table_population:
             # Add grade_data to grade_row
             for grade_value, grade_num in grade_data:
                 if grade_num - stats.current_register_page * stats.default_register_column_count < len(grade_row) and grade_num >= stats.current_register_page * stats.default_register_column_count:
-                    grade_row[grade_num] = grade_value
+                    grade_row[grade_num - stats.current_register_page * stats.default_register_column_count] = grade_value
 
             grade_list.append(grade_row)
 

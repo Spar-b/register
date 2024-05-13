@@ -12,10 +12,11 @@ class Grade:
     @staticmethod
     def save_all(data, db):
         cursor = db.db.cursor()
+
         for id, student_id, grade_num, grade_value in data:
             cursor.execute(
                 f"INSERT INTO grades (id, student_id, grade_num, grade_value) VALUES (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE grade_value = VALUES(grade_value), grade_num = VALUES(grade_num);"
-                , (id, student_id, grade_num, grade_value))
+                , (id, student_id, grade_num + stats.current_register_page * stats.default_register_column_count, grade_value))
 
         print("Successfully saved Students")
         db.db.commit()
