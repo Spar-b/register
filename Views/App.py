@@ -34,8 +34,12 @@ class App(customtkinter.CTk):
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.authorization_button = customtkinter.CTkButton(self.sidebar_frame, command=self.to_authorization, text='Вихід з акаунту')
         self.authorization_button.grid(row=1, column=0, padx=20, pady=10)
+
         self.enter_data_button = customtkinter.CTkButton(self.sidebar_frame, command=self.to_enter_data, text='Ввід даних')
         self.enter_data_button.grid(row=2, column=0, padx=20, pady=10)
+
+        self.teacher_load_button = customtkinter.CTkButton(self.sidebar_frame, command=self.to_teacher_load, text='Навантаження', state='disabled')
+        self.teacher_load_button.grid(row=3, column=0, padx=20, pady=10)
 
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Тема:", anchor="w")
         self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
@@ -53,7 +57,7 @@ class App(customtkinter.CTk):
         self.navbar_frame.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), weight=1)
 
         self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=lambda: TableOperations.add_empty_row(self.content_frame))
-        self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew")
+        self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew", padx=20)
 
         self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command= lambda: SaveTable.save(self.content_frame))
         self.navbar_save_button.grid(row=2, column=1, sticky="nsew")
@@ -124,6 +128,13 @@ class App(customtkinter.CTk):
         self.sidebar_frame.grid_remove()
         self.content_frame = Register(self, self, fg_color=("#FFFFFF", "#000000"))
         self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
+
+    def to_teacher_load(self):
+        from Views.TeacherLoad.TeacherLoadView import TeacherLoadView
+        self.content_frame.destroy()
+        self.content_frame = TeacherLoadView(self, fg_color=("#F5F5F5", "#000000"))
+        self.content_frame.grid(row=1, column=1, sticky='nsew', rowspan=4)
+        print("Successful switch to teacher load view")
 
 
 if __name__ == "__main__":

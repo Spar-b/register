@@ -1,10 +1,13 @@
 from Utils import stats
 import CTkTable
-
+import tkinter as tk
+from tkinter import ttk
 
 class Table_population:
     def __init__(self):
         print("Table population class created")
+        self.style = ttk.Style()
+        self.style.configure("RTL", justify="right")
 
     @staticmethod
     def populate_students_table(master):
@@ -83,7 +86,7 @@ class Table_population:
                               values=stats.table_data, row=len(stats.table_data), command=master.table_on_click)
 
         master.table.edit_row(0, text_color="#FFFFFF")
-        #master.table.edit_row(1, fg_color=("#3a7ebf", "#1f538d"), text_color="#FFFFFF")
+        #master.table.edit_row(1, text_color="#FFFFFF")
 
 
         master.table.edit_column(1, width=380)
@@ -97,6 +100,8 @@ class Table_population:
     def populate_table(master, query):
         try:
             master.app.navbar_absent_button.configure(state='disabled')
+            if stats.current_table != "subjects":
+                master.app.teacher_load_button.configure(state='normal')
         except AttributeError:
             print("Can't change absent button state")
         master.cursor.execute(query)
@@ -117,7 +122,7 @@ class Table_population:
         master.table.destroy()
 
         master.table = CTkTable.CTkTable(master, column=len(master.column_names), header_color=("#3a7ebf", "#1f538d"), values=stats.table_data, row=len(stats.table_data), command=master.table_on_click)
-        master.table.edit_row(0, text_color="#FFFFFF")
+        #master.table.edit_row(0, text_color="#FFFFFF")
         master.table.grid(row=0, column=0, columnspan=8)
 
         print(f"Stats data: {stats.table_data}")
