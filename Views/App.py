@@ -54,38 +54,38 @@ class App(customtkinter.CTk):
 
         self.navbar_frame = customtkinter.CTkFrame(self, corner_radius=0, height=100)
         self.navbar_frame.grid_rowconfigure((1, 2, 3), weight=1)
-        self.navbar_frame.grid_columnconfigure((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), weight=1)
+        self.navbar_frame.grid_columnconfigure((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), weight=1)
 
         self.navbar_add_row_button = customtkinter.CTkButton(self.navbar_frame, text="Додати рядок", command=lambda: TableOperations.add_empty_row(self.content_frame))
-        self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew", padx=20)
+        self.navbar_add_row_button.grid(row=1, column=1, sticky="nsew", padx=10, pady=10)
 
         self.navbar_save_button = customtkinter.CTkButton(self.navbar_frame, text="Зберегти", font=customtkinter.CTkFont("Arial", 16), command= lambda: SaveTable.save(self.content_frame))
-        self.navbar_save_button.grid(row=2, column=1, sticky="nsew")
+        self.navbar_save_button.grid(row=1, column=2, sticky="nsew", padx=10, pady=10)
         self.navbar_edit_button = customtkinter.CTkButton(self.navbar_frame, text="Редагування",
                                                           command=EnterData.switch_to_edit)
-        self.navbar_edit_button.grid(row=1, column=2, sticky="nsew")
+        self.navbar_edit_button.grid(row=1, column=3, sticky="nsew", padx=10, pady=10)
 
         self.navbar_open_button = customtkinter.CTkButton(self.navbar_frame, text="Перехід",
                                                           command=EnterData.switch_to_open)
-        self.navbar_open_button.grid(row=2, column=2, sticky="nsew")
+        self.navbar_open_button.grid(row=1, column=4, sticky="nsew", padx=10, pady=10)
 
         self.navbar_delete_button = customtkinter.CTkButton(self.navbar_frame, text="Видалення", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_delete)
-        self.navbar_delete_button.grid(row=1, column=3, sticky="nsew")
+        self.navbar_delete_button.grid(row=1, column=5, sticky="nsew", padx=10, pady=10)
 
         self.navbar_absent_button = customtkinter.CTkButton(self.navbar_frame, text="нб", font=customtkinter.CTkFont("Arial", 16), command=self.content_frame.switch_to_absent, state='disabled')
-        self.navbar_absent_button.grid(row=2, column=3, sticky="nsew")
+        self.navbar_absent_button.grid(row=1, column=6, sticky="nsew", padx=10, pady=10)
 
         self.navbar_previous_page_button = customtkinter.CTkButton(self.navbar_frame, text="Минула сторінка",
                                                                font=customtkinter.CTkFont("Arial", 16),
                                                                command= lambda: self.content_frame.previous_page(self.content_frame),
                                                                state='disabled')
-        self.navbar_previous_page_button.grid(row=1, column=4, sticky="nsew")
+        self.navbar_previous_page_button.grid(row=1, column=7, sticky="nsew", padx=10, pady=10)
 
         self.navbar_next_page_button = customtkinter.CTkButton(self.navbar_frame, text="Наступна сторінка",
                                                                font=customtkinter.CTkFont("Arial", 16),
                                                                command= lambda: self.content_frame.next_page(self.content_frame),
                                                                state='disabled')
-        self.navbar_next_page_button.grid(row=2, column=4, sticky="nsew")
+        self.navbar_next_page_button.grid(row=1, column=8, sticky="nsew", padx=10, pady=10)
 
         self.to_authorization()
 
