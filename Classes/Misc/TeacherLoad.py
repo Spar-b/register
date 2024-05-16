@@ -7,8 +7,12 @@ class TeacherLoad:
 
     @staticmethod
     def get_from_db():
-        sql_query = (f"SELECT * FROM teacher_load WHERE account_id = {stats.current_user.id} AND"
-                     f" subject_id = {stats.current_subject_id};")
+        sql_query = f'''SELECT tl.id AS '№', s.subject_name AS 'Предмет', g.name AS 'Група', 
+                    tl.lection_hours AS 'Лекції', tl.labs_hours AS 'Лаби', tl.exam_hours AS 'Екзамен', tl.weekly_hours AS 'В тиждень'
+                    FROM teacher_load tl
+                    JOIN subjects s ON tl.subject_id = s.id
+                    JOIN student_groups g ON tl.group_id = g.id
+                    WHERE tl.account_id = {stats.current_user.id} AND tl.subject_id = {stats.current_subject_id};'''
         return sql_query
 
     @staticmethod
