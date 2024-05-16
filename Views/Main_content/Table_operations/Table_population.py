@@ -100,14 +100,14 @@ class Table_population:
     def populate_table(master, query):
         try:
             master.app.navbar_absent_button.configure(state='disabled')
-            if stats.current_table != "subjects":
-                master.app.teacher_load_button.configure(state='normal')
         except AttributeError:
             print("Can't change absent button state")
         master.cursor.execute(query)
 
         data = master.cursor.fetchall()
         print(f"Data: {data}")
+
+        data = sorted(data, key=lambda x: x[0])
 
         column_names = [desc[0] for desc in master.cursor.description]
         print(master.cursor.description)

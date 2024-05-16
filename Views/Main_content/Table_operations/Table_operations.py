@@ -90,6 +90,8 @@ class TableOperations:
             case "subjects":
                 stats.current_subject_id = stats.table_data[row][0]
                 master.sql_query = Classes.User_accounting.Subject.Subject.to_child(id)
+            case "teacher load":
+                return
 
         print(stats.current_table)
         stats.heading_rows_count = 1
