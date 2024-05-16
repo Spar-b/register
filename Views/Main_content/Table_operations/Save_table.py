@@ -20,8 +20,8 @@ class SaveTable:
                     stats.local_tables.subjects.append(subject)
                     stats.local_tables.user_subjects.append(user_subject)
 
-                    Subject.save_all(data, db)
-                    stats.table_saved = True
+                Subject.save_all(data, db)
+                stats.table_saved = True
 
             case "departments":
                 from Classes.Student_accounting.Department import Department
@@ -32,8 +32,8 @@ class SaveTable:
                     stats.local_tables.departments.append(department)
                     stats.local_tables.subject_departments.append(subject_department)
 
-                    Department.save_all(data, db)
-                    stats.table_saved = True
+                Department.save_all(data, db)
+                stats.table_saved = True
 
             case "specializations":
                 from Classes.Student_accounting.Specialization import Specialization
@@ -41,8 +41,8 @@ class SaveTable:
                     specialization = Specialization(row[0], row[1], stats.current_parent_id)
                     stats.local_tables.specializations.append(specialization)
 
-                    Specialization.save_all(data, db)
-                    stats.table_saved = True
+                Specialization.save_all(data, db)
+                stats.table_saved = True
 
             case "years":
                 from Classes.Student_accounting.Year import Year
@@ -50,8 +50,8 @@ class SaveTable:
                     year = Year(row[0], stats.current_parent_id)
                     stats.local_tables.years.append(year)
 
-                    Year.save_all(data, db)
-                    stats.table_saved = True
+                Year.save_all(data, db)
+                stats.table_saved = True
 
             case "student_groups":
                 import Classes.Student_accounting.Group as Group
@@ -59,8 +59,8 @@ class SaveTable:
                     group = Group.Group(row[0], stats.current_parent_id)
                     stats.local_tables.groups.append(group)
 
-                    Group.Group.save_all(data, db)
-                    stats.table_saved = True
+                Group.Group.save_all(data, db)
+                stats.table_saved = True
 
             case "students":
                 from Classes.Student_accounting.Student import Student
@@ -105,5 +105,11 @@ class SaveTable:
                 Student.save_all(student_data, db)
                 Grade.save_all(grades_list, db)
                 stats.table_saved = True
+
+            case 'teacher load':
+                from Classes.Misc.TeacherLoad import TeacherLoad
+                TeacherLoad.save_to_db(stats.table_data[1:])
+                stats.table_saved = True
+                print("Saved successfully")
 
         stats.local_tables.print_all()

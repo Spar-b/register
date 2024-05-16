@@ -21,6 +21,11 @@ class TeacherLoad:
         db = DBConnect()
         cursor = db.cursor
         for row in data:
-            values_string = f"{row[0]}, {stats.current_user}, {stats.current_subject_id}, {row[1]}, {row[2]}, {row[3]}, {row[4]}, {row[5]}"
+            cursor.execute(f"SELECT id FROM student_groups WHERE name = '{row[2]}';")
+            group_id = cursor.fetchone()[0]
+
+            values_string = f"{row[0]}, {stats.current_user.id}, {stats.current_subject_id}, {group_id}, {row[3]}, {row[4]}, {row[5]}, {row[6]}"
             sql_query = f"INSERT INTO teacher_load VALUES ({values_string});"
+            print(sql_query)
             cursor.execute(sql_query)
+        db.db.commit()
